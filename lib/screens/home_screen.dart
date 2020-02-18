@@ -10,9 +10,29 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('강몬'),
+        title: Text('강몬 작업시작'),
+        leading: IconButton(
+          icon: Icon(Icons.account_circle),
+          iconSize: 30.0,
+          onPressed: () {},
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: Text('강사개인코칭 플랫폼'),
+      body: ListView(
+          children: <Widget>[
+              Text('Content'),
+            ]
+      ),
     );
   }
 }
