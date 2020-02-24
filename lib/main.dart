@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kangmon/screens/home_screen.dart';
+import 'package:flutter_kangmon/pages/home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.deepOrangeAccent,
         //primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: HomePage(),
     );
   }
 }
