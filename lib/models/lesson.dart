@@ -1,9 +1,41 @@
 
 
+import 'package:flutter_kangmon/data/data.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class CurrentUserBloc {
+  final _userSubject = BehaviorSubject<User>();
+  Stream<User> get data => _userSubject.stream;
+
+  CurrentUserBloc() {
+    fetch();
+  }
+
+  void fetch() async {
+    print('CurrentUserBloc fetch()');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    User user;
+    if(pref.containsKey('mb_id')) {
+      user = User(
+          mb_id: pref.getString('mb_id'),
+          mb_nick: pref.getString('mb_nick'),
+          mb_hp: pref.getString('mb_hp')
+      );
+      _userSubject.add(user);
+    } else {
+      _userSubject.add(null);
+      //user = User(mb_id: '', mb_nick: '', mb_hp: '');
+    }
+  }
+
+}
+
+
 class User {
-  final String mb_nick;
-  final String mb_id;
-  final String mb_hp;
+  String mb_nick;
+  String mb_id;
+  String mb_hp;
 
   User({this.mb_nick, this.mb_id, this.mb_hp});
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
+import 'package:flutter_kangmon/help/common.dart';
+import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/signin_page.dart';
 import 'package:flutter_kangmon/widgets/alert_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -28,23 +32,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: /*Column(
-        children: <Widget>[
-          Text('아이디, 비번'),
-          FlatButton(
-            child: Text(
-              '회원가입',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SigninPage())),
-          ),
-        ],
-      ),*/
+      body:
       GestureDetector(
-
         // keyboard down
         onTap: () {
           print("onTapped");
@@ -62,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 colors: [ Colors.red, Colors.blue]
             ),
           ),
-          child: Column(
+          child: ListView(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
@@ -178,8 +167,8 @@ class _LoginPageState extends State<LoginPage> {
             print('mb_id: ' + js['mb_id']);
             print('mb_nick: ' + js['mb_nick']);
             print('mb_hp: ' + js['mb_hp']);
-            currentUser = User(mb_nick: js['mb_nick'], mb_id: js['mb_id'], mb_hp: js['mb_hp']);
-            print(currentUser.mb_nick);
+
+            setUserInfo({'mb_id': js['mb_id'], 'mb_nick': js['mb_nick'], 'mb_hp': js['mb_hp']});
 
             Navigator.pop(context);
           } else {
@@ -187,12 +176,6 @@ class _LoginPageState extends State<LoginPage> {
             showAlertDialog(context,'로그인 에러', js['message']);
           }
 
-
-          // currentUser data 저장
-
-          // 화면이동
-          //Navigator.pop(context);
-          //return json.decode(response.body);
         });
     //print(response);
     return '00';

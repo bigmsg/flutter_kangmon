@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/help/common.dart';
+import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
+import 'package:flutter_kangmon/pages/teacher/teacher_register_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
 
 import '../login_page.dart';
 import 'lesson_detail_page.dart';
-import '../portfolio/portfolio_register_page.dart';
+import '../teacher/portfolio_register_page.dart';
+
+
 
 
 class LessonListPage extends StatefulWidget {
@@ -51,18 +57,24 @@ class _LessonListState extends State<LessonListPage> {
   initState() {
     super.initState();
     this.getData();
+    initialApp();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentUser.mb_nick),
-        leading: IconButton(
+        //centerTitle: true,
+        title: Text('미용자격증 코칭몬',
+          style: TextStyle(
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        /*leading: IconButton(
           icon: Icon(Icons.account_circle),
           iconSize: 30.0,
           onPressed: () {},
-        ),
+        ),*/
         actions: <Widget>[
           FlatButton(
             child: Text('강사등록',
@@ -71,19 +83,20 @@ class _LessonListState extends State<LessonListPage> {
                 fontSize: 20.0,
               ),
             ),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PortfolioRegisterPage())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherRegisterPage())),
           ),
-          FlatButton(
-            child: Text('Login',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          StreamBuilder<User>(
+            stream: currentUserBloc.data,
+            builder: (context, snapshot) {
+              //if(snapshot.hasData && snapshot.data.mb_id != '') {
+              if(snapshot.hasData) {
+                return _buildLogout(context);
+              } else {
+                return _buildLogin(context);
+              }
             },
           ),
+
         ],
       ),
 
@@ -100,8 +113,46 @@ class _LessonListState extends State<LessonListPage> {
                 color: Colors.grey,
               );
           },
+
         ),
       ),
+    );
+  }
+
+
+
+  _buildLogin(BuildContext context) {
+    return /*FlatButton(
+      child: Text('Login',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+      },
+    );*/
+    IconButton(
+      icon: Icon(Icons.alarm_add),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+      },
+    );
+      //CircularProgressIndicator();
+  }
+
+  _buildLogout(BuildContext context) {
+    return FlatButton(
+      child: Text('Logout',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+      ),
+      onPressed: () {
+        logout();
+      },
     );
   }
 

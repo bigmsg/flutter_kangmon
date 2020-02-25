@@ -17,10 +17,11 @@ final portfolioInfoUrl = _appUrl + '/login_check.php';
 
 
 var currentUser = User(
-  mb_id: 'gt',
-  mb_nick: '양종석',
-  mb_hp: '010-7223-3791'
+  mb_id: '',
+  mb_nick: '',
+  mb_hp: ''
 );
+//var currentUser = User();
 
 final _user1 = User(
   mb_id: 'gt',
