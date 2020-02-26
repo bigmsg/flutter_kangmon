@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+class SigninPage extends StatefulWidget {
+  @override
+  _SigninPageState createState() => _SigninPageState();
+}
 
-class LessonRegisterPage extends StatelessWidget {
+class _SigninPageState extends State<SigninPage> {
   TextEditingController _subjectController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   TextEditingController _localController = TextEditingController();
@@ -11,7 +15,8 @@ class LessonRegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('레슨등록'),
+        title: Text('회원가입 '),
+
       ),
       body: ListView(
         children: <Widget>[
@@ -28,22 +33,7 @@ class LessonRegisterPage extends StatelessWidget {
                     ),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "제목"
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  TextField(
-                    controller: _contentController,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "내용"
+                        labelText: "이메일(id)"
                     ),
                   ),
                   SizedBox(height: 10,),
@@ -56,26 +46,26 @@ class LessonRegisterPage extends StatelessWidget {
                     ),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "지역"
+                        labelText: "비밀번호"
                     ),
                   ),
                   SizedBox(height: 10,),
 
                   TextField(
-                    controller: _priceController,
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "금액"
-                    ),
-                    onChanged: (text) {
-                      print(text);
-                      //_priceController.text = 'W' + text;
-                    }
+                      controller: _priceController,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "닉네임"
+                      ),
+                      onChanged: (text) {
+                        print(text);
+                        //_priceController.text = 'W' + text;
+                      }
                   ),
                   SizedBox(height: 10,),
 
@@ -106,28 +96,8 @@ class LessonRegisterPage extends StatelessWidget {
     );
   }
 
-  void _onSubmit(context) {
-    print('저장하기 ');
+  _onSubmit(BuildContext context) {
+
   }
-
-  _buildBody() {
-    //return Text('hello');
-
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          title: Text('리스트뷰 레슨등록 '),
-          floating: true,
-          //flexibleSpace: Placeholder(),
-          //expandedHeight: 20,
-        ),
-        //Text('hello'),
-        /*SliverList(
-          delegate: ,
-        )*/
-      ],
-    );
-  }
-
 
 }

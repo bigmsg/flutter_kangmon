@@ -3,7 +3,7 @@ import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
 import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
-import 'package:flutter_kangmon/pages/signin_page.dart';
+import 'package:flutter_kangmon/pages/member/signin_page.dart';
 import 'package:flutter_kangmon/widgets/alert_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
               FlatButton(
                 child: Text("아직 회원이 아니신가요? 회원가입"),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SigninPage()));
                 },
               ),
 

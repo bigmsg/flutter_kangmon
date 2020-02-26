@@ -62,3 +62,15 @@ class Lesson {
 
   Lesson({this.user, this.portfolio, this.subject, this.content, this.term, this.price, this.local, this.category });
 }
+
+
+class Post {
+  int wr_id;
+  String mb_id;
+  String mb_nick;
+  String wr_subject;
+  String wr_content;
+  String wr_datetime;
+
+  Post({this.wr_id, this.mb_id, this.mb_nick, this.wr_subject, this.wr_content, this.wr_datetime});
+}

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/pages/lesson/lesson_photo_register_page.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
+import 'package:flutter_kangmon/pages/lesson/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,12 +72,31 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
                   },
                 ),
               ),
-              FlatButton(
-                child: Text('레슨등록하기'),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => LessonRegisterPage()));
-                },
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('레슨등록'),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => LessonRegisterPage()));
+                    },
+                  ),
+
+                  FlatButton(
+                    child: Text('사진등록'),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => LessonPhotoRegisterPage()));
+                    },
+                  ),
+                ],
               ),
+
+              /*FloatingActionButton(
+                onPressed: getImage,
+                tooltip: 'Pick Image',
+                child: Icon(Icons.add_a_photo),
+              ),*/
             ]
         ),
       ),
@@ -101,10 +122,10 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
     //var image = await ImagePicker.pickImage(source: ImageSource.camera);
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
+    /*setState(() {
       _image = image;
-    });
-    //setState(() => _image = image);
+    });*/
+    setState(() => _image = image);
   }
 
 }

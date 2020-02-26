@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
 
-import '../login_page.dart';
+import '../member/login_page.dart';
 import 'lesson_detail_page.dart';
 import '../teacher/portfolio_register_page.dart';
 
@@ -63,7 +63,7 @@ class _LessonListState extends State<LessonListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         //centerTitle: true,
         title: Text('미용자격증 코칭몬',
           style: TextStyle(
@@ -76,6 +76,15 @@ class _LessonListState extends State<LessonListPage> {
           onPressed: () {},
         ),*/
         actions: <Widget>[
+          FlatButton(
+            child: Text('설정',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherRegisterPage())),
+          ),
           FlatButton(
             child: Text('강사등록',
               style: TextStyle(
@@ -98,7 +107,7 @@ class _LessonListState extends State<LessonListPage> {
           ),
 
         ],
-      ),
+      ),*/
 
       body: Container(
         child: ListView.separated(
@@ -120,7 +129,7 @@ class _LessonListState extends State<LessonListPage> {
   }
 
 
-
+  /*
   _buildLogin(BuildContext context) {
     return /*FlatButton(
       child: Text('Login',
@@ -154,7 +163,7 @@ class _LessonListState extends State<LessonListPage> {
         logout();
       },
     );
-  }
+  }*/
 
   _buildLesson(BuildContext context, Lesson lesson) {
     return Container(
