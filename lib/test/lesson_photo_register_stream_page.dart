@@ -3,46 +3,48 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
-import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
-import 'package:flutter_kangmon/models/providers.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 
-class LessonPhotoRegisterPage extends StatefulWidget {
+class LessonPhotoRegisterBlocPage extends StatefulWidget {
   @override
-  _LessonPhotoRegisterPageState createState() => _LessonPhotoRegisterPageState();
+  _LessonPhotoRegisterBlocPageState createState() => _LessonPhotoRegisterBlocPageState();
 }
 
-class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
-
+class _LessonPhotoRegisterBlocPageState extends State<LessonPhotoRegisterBlocPage> {
   @override
   Widget build(BuildContext context) {
-
-    final photos = Provider.of<LessonPhotos>(context);
-
     return Scaffold(
-      appBar: AppBar(
-          title: Text('레슨 사진등록(Provider)')
+        appBar: AppBar(
+        title: Text('레슨 사진등록(Bloc)')
       ),
-      body: GridView.count(
-          padding: EdgeInsets.all(10.0),
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 1.5,
-          children: List.generate(photos.image.length, (index) {
-            return _buildPhoto(photos, index);
-          }),
-        ),
-      );
+      body: StreamBuilder(
+        stream: lessonPhotosBloc.photos,
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            return GridView.count(
+              padding: EdgeInsets.all(10.0),
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 1.5,
+              children: List.generate(snapshot.data.length, (index) {
+                return _buildPhoto(snapshot.data, index);
+              }),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    );
   }
 
   // 이미지 배치하기
-  _buildPhoto(dynamic photos, int index) {
+  _buildPhoto(List<dynamic> images, int index) {
 
-    if (photos.image[index] == null || photos.image[index] == 0) {
+    if (images[index] == null || images[index] == 0) {
       return Center(
         child: Stack(
           alignment: Alignment.center,
@@ -59,7 +61,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
               bottom: 45.0,
               child: Column(
                 children: <Widget>[
-                  photos.image[index] == null ? Icon(
+                  images[index] == null ? Icon(
                     Icons.photo,
                     size: 30,
                     color: Colors.grey,
@@ -80,7 +82,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
                   icon: Icon(Icons.add),
                   color: Colors.white,
                   onPressed: () {
-                    _pickImage(photos, index);
+                    _pickImage(index);
                   },
                 ),
               ),
@@ -99,7 +101,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
               height: 120.0, width: 180.0,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(photos.image[index]),
+                      image: NetworkImage(images[index]),
                       fit: BoxFit.cover
                   ),
                   borderRadius: BorderRadius.circular(10.0)
@@ -117,7 +119,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
                   icon: Icon(Icons.close),
                   color: Colors.white,
                   onPressed: () {
-                    _removeImage(photos, index);
+                    _removeImage(index);
                   },
                 ),
 
@@ -131,7 +133,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
 
 
   // 이미지 선택
-  _pickImage(dynamic photos, int index) async {
+  _pickImage(int index) async {
     print('call getImage()');
     var file = await ImagePicker.pickImage(source: ImageSource.gallery);
     //var file = await ImagePicker.pickVideo(source: ImageSource.gallery); // video 선택하기
@@ -140,16 +142,15 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
     print('start upload');
     if(file == null) return;
     else {
-      photos.upload(file, index);
-      //_uploadImage(file, photos, index);
+      _uploadImage(file, index);
     }
   }
 
-  // 이미지 업로드
-  _uploadImage(File file, dynamic photos, int index) async {
-    print('upload... $index');
+  // 이미지 서버업로드
+  _uploadImage(File file, int index) async {
+    //print('upload... $index');
 
-    //photos.change(index, 0);
+    lessonPhotosBloc.change(index, 0);
 
     String base64Image = base64Encode(file.readAsBytesSync());
     String fileName = file.path.split("/").last;
@@ -158,59 +159,19 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
       "image": base64Image,
       "name": fileName,
     });
-    /*.then((res) {
-      print(res.statusCode);
-      print(res.body);
-    }).catchError((err) {
-      print(err);
-    });*/
-    print('body: ' + res.body);
+
+    //print('body: ' + res.body);
     //var js = json.decode(res.body);
     //photos.image[index] = res.body;
-    //photos.change(index, res.body);
-    //print(photos.image[index]);
+    lessonPhotosBloc.change(index, res.body);
+    //print(.image[index]);
 
-    /*http.post(photoRegisterUrl, body: {
-      "image": base64Image,
-      "name": fileName,
-    }).then((res) {
-      print(res.statusCode);
-      print(res.body);
-    }).catchError((err) {
-      print(err);
-    });*/
-
-    /*
-      실패: 나중에 동영상 업로드시 다시 에러 수정해야 함
-      이유: flutter에서 데이터 전송은 OK
-        - php에서 어떻게 데이터를 받아야하는지 모르겠음
-    */
-
-    /*
-
-    var request = http.MultipartRequest("POST", Uri.parse(photoRegisterUrl));
-    var multipartFile = http.MultipartFile.fromBytes('image', image.readAsBytesSync(),
-      contentType: MediaType('image','jpg'),);
-
-    //request.headers = { "Content-Type":"multipart/form-data" };
-    request.fields['file_name'] = fileName;
-    request.fields['mb_id'] = currentUser.mb_id;
-    request.files.add(multipartFile);
-    //http.StreamedResponse response =  await request.send();
-    var streamResponse =  await request.send();
-    var response = await http.Response.fromStream(streamResponse);
-    print(response.body);
-    */
 
   }
 
-
   // 이미지 삭제
-  _removeImage(dynamic photos, int index) {
-    //1. 서버삭제
-
-    //2. provider 삭제
-    photos.remove(index);
+  _removeImage(int index) {
+    lessonPhotosBloc.remove(index);
   }
 
 }

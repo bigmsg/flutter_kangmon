@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
 import 'package:flutter_kangmon/models/providers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +19,7 @@ import 'dart:convert';
   provider 사용한 상태관리 예제
   - rxdart bloc 패턴이 심플한 것 같아서
   - rxdart bloc 패턴으로 소스 변경함
-  - lesson_photo_register_page.dart
+  - lesson_photo_register_stream_page.dart
 
 
  */

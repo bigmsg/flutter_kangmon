@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
+import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/pages/bbs/bbs_list_page.dart';
 import 'package:flutter_kangmon/pages/member/login_page.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
@@ -42,19 +43,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    var mbGroup = '';
 
-    print('mbGRoup start');
-    var cUser = currentUserBloc.data.last;
-    cUser.then((user) {
-        mbGroup = user.mb_group;
-        print('group: ' + mbGroup);
-    });
+    var currentUser = Provider.of<CurrentUser>(context);
+    print('home page(mb_nick): ${currentUser.data.mb_group}');
+
 
 
     //return LessonListPage();
     return DefaultTabController(
-        length: mbGroup == 'super' ? 5: 4,
+        length: currentUser.data.mb_group == 'super' ? 5: 4,
+        //length: 4,
         child: Scaffold(
           appBar: AppBar(
             //centerTitle: true,
@@ -114,31 +112,7 @@ class _HomePageState extends State<HomePage> {
               //height: 65,
               child: TabBar(
                 //controller: ctr,
-
-                tabs: <Widget>[
-                  Tab(child: Text('레슨', style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    //color: Colors.white,
-                  ),),),
-                  Tab(child: Text('레슨관리', style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    //color: Colors.white,
-                  ),),),
-                  Tab(child: Text('게시판', style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    //color: Colors.white,
-                  ),),),
-
-                  Tab(child: Text('MY', style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    //color: Colors.white,
-                  ),),),
-
-                ],
+                tabs: currentUser.data.mb_group == 'super' ? _buildTabBar5() : _buildTabBar4(),
               ),
 
               decoration: BoxDecoration(
@@ -155,31 +129,14 @@ class _HomePageState extends State<HomePage> {
           ),
           body: TabBarView(
             //controller: ctr,
-            children: <Widget>[
-              LessonListPage(),
-              Text('레슨관리'),
-              BbsListPage(),
-              MyPage(),
-
-            ],
+            children: currentUser.data.mb_group == 'super' ? _buildPage5() : _buildPage4(),
           ),
         ),
       );
     }
 
     _buildLogin(BuildContext context) {
-      return /*FlatButton(
-      child: Text('Login',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-        ),
-      ),
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-    );*/
-        IconButton(
+      return IconButton(
           icon: Icon(Icons.alarm_add),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -202,6 +159,90 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
+  _buildTabBar5() {
+    return <Widget>[
+      Tab(child: Text('레슨', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+
+      Tab(child: Text('영자방', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+
+      Tab(child: Text('레슨관리', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+      Tab(child: Text('게시판', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+
+      Tab(child: Text('MY', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+    ];
+
+  }
+
+  _buildTabBar4() {
+    return <Widget>[
+      Tab(child: Text('레슨', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      //color: Colors.white,
+      ),),),
+
+      Tab(child: Text('레슨관리', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+      Tab(child: Text('게시판', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+
+      Tab(child: Text('MY', style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        //color: Colors.white,
+      ),),),
+    ];
+
+  }
+
+  _buildPage5() {
+    return <Widget>[
+      LessonListPage(),
+      Text('영자방'),
+      Text('레슨관리'),
+      BbsListPage(),
+      MyPage(),
+
+    ];
+
+  }
+
+  _buildPage4() {
+    return <Widget>[
+      LessonListPage(),
+      Text('레슨관리'),
+      BbsListPage(),
+      MyPage(),
+
+    ];
+
+  }
 
 }
 

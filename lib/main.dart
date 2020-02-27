@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_kangmon/help/common.dart';
 
+import 'models/lesson_photos_provider.dart';
 import 'models/providers.dart';
 
 //final lessonPhotos = LessonPhotos();
@@ -28,8 +29,6 @@ void main() {
 
   return runApp(MyApp());
 }
-
-
 
 
 

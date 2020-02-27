@@ -2,15 +2,12 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
-import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_photo_register_page.dart';
-import 'package:flutter_kangmon/pages/lesson/lesson_photo_register_provider_page.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
-import 'package:flutter_kangmon/pages/lesson/test.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
 import 'package:image_picker/image_picker.dart';
 
 
@@ -27,19 +24,22 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
 
   @override
   Widget build(BuildContext context) {
-    print('bulidng teacher_profile_register_page');
-    String greeting = '';
+
     _hpController.text = currentUser.mb_hp;
 
-    /*print(currentUserBloc.data);
-    currentUserBloc.data.last.then((user) {
-      //_profileController.text = user.mb_id;
-      //print(value.mb_id);
+    /*
+        위젯 만들어지기전에 code에서 값 변경하기
+     */
+    /*
+    var photos = Provider.of<LessonPhotos>(context, listen: false);
+    print('teacher profile register page');
+    print(photos.image);
+    for(var i=0; i< photos.image.length; i++) {
+      photos.image[i] = 0;
+    }*/
 
-    });*/
 
-
-    var mb = Provider.of<CurrentUser>(context, listen: false);
+    var mb = Provider.of<CurrentUser>(context);
     print('teacher profile mb_nick: ' + mb.data.mb_nick);
 
     return Scaffold(
@@ -52,17 +52,6 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('provider(mb_id):' + mb.data.mb_id),
-              StreamBuilder(
-                stream: currentUserBloc.data,
-                builder: (context, snapshot) {
-                  if(snapshot.hasData) {
-                    return Text('stream(mb_id): ' + snapshot.data.mb_id);
-                  }else {
-                    return Text('not login mb_nick: ');
-                  }
-                },
-              ),
-
               Text('강사등록비는 2020년까지 무료입니다.\n금액은 차후에 결정됩니다.'),
               SizedBox(height: 20,),
               TextField(

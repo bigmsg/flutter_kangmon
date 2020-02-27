@@ -39,8 +39,11 @@ Future getShared(String name) async {
 Future setUserInfo(Map<String, String> userInfo) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.setString('mb_id', userInfo['mb_id']);
+  pref.setString('mb_password', userInfo['mb_password']);
+  pref.setString('mb_group', userInfo['mb_group']);
   pref.setString('mb_nick', userInfo['mb_nick']);
   pref.setString('mb_hp', userInfo['mb_hp']);
+  pref.setString('mb_photo', userInfo['mb_photo']);
 
   /*currentUser.mb_id = userInfo['mb_id'];
   currentUser.mb_nick = userInfo['mb_nick'];

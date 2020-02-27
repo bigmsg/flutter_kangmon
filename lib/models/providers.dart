@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_kangmon/data/data.dart';
@@ -64,48 +66,3 @@ class CurrentUser extends ChangeNotifier {
 
 
 
-/*
-  레슨사진등록: 서버 가져오기, 서버 업로드
- */
-class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현가능함
-  List<dynamic> _image = [0, 0, 0, 0, 0, 0];
-  List<dynamic> get image => _image;
-
-  LessonPhotos() {
-    fetch();
-  }
-
-  void fetch() async {
-    //print('LessonPhotos fetch()');
-    //print('start request');
-    var res = await http.get(getPhotosUrl);
-    //print('end request');
-    //print(res.body);
-
-    var js = json.decode(res.body);
-    //List<dynamic> photos = [];
-    //_image = [];
-    for(var i=0; i< js.length; i++) {
-      //print(js[i]);
-      //_image = js[i];
-      if (js[i] == null) {
-        _image[i] = null;
-      } else {
-        _image[i] = js[i];
-      }
-    }
-    //print(_image);
-    notifyListeners();
-  }
-
-  void change(int index, dynamic url) {
-    _image[index] = url;
-    notifyListeners();
-  }
-
-  void remove(int index)  {
-    _image[index] = null;
-    notifyListeners();
-  }
-
-}
