@@ -17,7 +17,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text('레슨 사진등록(업데이트)')
+        title: Text('레슨 사진등록(Bloc)')
       ),
       body: StreamBuilder(
         stream: lessonPhotosBloc.photos,

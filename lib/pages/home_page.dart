@@ -6,9 +6,11 @@ import 'package:flutter_kangmon/pages/member/login_page.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_list_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 import 'lesson/lesson_detail_page.dart';
+import 'lesson/test.dart';
 import 'member/mypage_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,13 +41,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var mbGroup = '';
+
+    print('mbGRoup start');
+    var cUser = currentUserBloc.data.last;
+    cUser.then((user) {
+        mbGroup = user.mb_group;
+        print('group: ' + mbGroup);
+    });
+
+
     //return LessonListPage();
     return DefaultTabController(
-        length: 4,
+        length: mbGroup == 'super' ? 5: 4,
         child: Scaffold(
           appBar: AppBar(
             //centerTitle: true,
-            title: Text('미용자격증 코칭몬',
+            title: Text('미용코칭몬',
               style: TextStyle(
                   fontWeight: FontWeight.bold
               ),
@@ -63,9 +76,11 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 20.0,
                   ),
                 ),
-                onPressed: () =>
+                onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage())),
+                        MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage()));
+                        //MaterialPageRoute(builder: (_) => TestPage()));
+                  }
               ),
               FlatButton(
                 child: Text('강사등록',
@@ -75,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onPressed: () =>
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage())),
               ),
@@ -181,7 +197,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         onPressed: () {
-          logout();
+          logout(context);
         },
       );
     }

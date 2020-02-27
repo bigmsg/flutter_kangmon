@@ -6,6 +6,7 @@ import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
@@ -62,6 +63,8 @@ class _LessonListState extends State<LessonListPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('bulidng lesson_list_page');
+    //var a = Provider.of<LessonPhotos>(context);
     return Scaffold(
       body: Container(
         child: ListView.separated(

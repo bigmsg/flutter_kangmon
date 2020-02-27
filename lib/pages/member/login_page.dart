@@ -3,9 +3,11 @@ import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
 import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/pages/member/signin_page.dart';
 import 'package:flutter_kangmon/widgets/alert_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
 
@@ -172,6 +174,8 @@ class _LoginPageState extends State<LoginPage> {
             print('mb_photo: ' + js['mb_photo']);
 
             setUserInfo({'mb_id': js['mb_id'], 'mb_password': js['mb_password'], 'mb_group': js['mb_group'] , 'mb_nick': js['mb_nick'], 'mb_hp': js['mb_hp'], 'mb_photo': js['mb_photo']});
+
+            Provider.of<CurrentUser>(context, listen: false).fetch();
 
             Navigator.pop(context);
           } else {

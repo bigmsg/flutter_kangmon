@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/main.dart';
+import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/providers.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -45,8 +49,9 @@ Future setUserInfo(Map<String, String> userInfo) async {
 }
 
 
-Future logout() async {
+Future logout(BuildContext context) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.clear();
   currentUserBloc.fetch();
+  Provider.of<CurrentUser>(context, listen: false).fetch();
 }
