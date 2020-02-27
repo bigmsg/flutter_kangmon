@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class LessonRegisterPage extends StatelessWidget {
+class LessonContentRegisterPage extends StatelessWidget {
   TextEditingController _subjectController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   TextEditingController _localController = TextEditingController();

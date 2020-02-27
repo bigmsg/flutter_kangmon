@@ -1,53 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 
-
-class BbsRegisterPage extends StatefulWidget {
+class BbsCommentRegisterPage extends StatefulWidget {
 
   Post post;
+  String w;
 
-  BbsRegisterPage({this.post});
+  BbsCommentRegisterPage({this.post, this.w});
 
   @override
-  _BbsRegisterPageState createState() => _BbsRegisterPageState();
+  _BbsCommentRegisterPageState createState() => _BbsCommentRegisterPageState();
 }
 
-class _BbsRegisterPageState extends State<BbsRegisterPage> {
-  TextEditingController _subjectController = TextEditingController();
+class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
+
   TextEditingController _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text( (widget.post == null) ? '게시글 작성': widget.post.wr_subject ),
+        title: Text( widget.w == null ? widget.post.wr_subject : '댓글수정'),
       ),
-      body:_buildWrite(),
+      body: _buildWrite(),
     );
   }
 
-  // 새글, 수정하기
+  // 새댓글, 수정
   _buildWrite() {
-    _subjectController.text = widget.post != null ? widget.post.wr_subject : null;
-    _contentController.text = widget.post != null ? widget.post.wr_content : null;
+    if (widget.post != null && widget.w == 'u') {
+      _contentController.text = widget.post.wr_content;
+    }
 
     return Container(
       padding: EdgeInsets.all(10),
       child: ListView(
         children: <Widget>[
           SizedBox(height: 15,),
-          TextField(
-            controller: _subjectController,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "제목"
-            ),
-          ),
-          SizedBox(height: 10,),
 
           TextField(
             controller: _contentController,
@@ -72,7 +61,7 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
               child: Text(
                 "저장하기",
                 style: TextStyle(
-                  color: Colors.black54,
+                  color: Colors.black,
                   fontSize: 20,
                 ),
               ),

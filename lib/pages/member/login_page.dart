@@ -165,10 +165,13 @@ class _LoginPageState extends State<LoginPage> {
           print(response.body);
           if (js['success']) {
             print('mb_id: ' + js['mb_id']);
+            print('mb_password: ' + js['mb_password']);
+            print('mb_group: ' + js['mb_group']);
             print('mb_nick: ' + js['mb_nick']);
             print('mb_hp: ' + js['mb_hp']);
+            print('mb_photo: ' + js['mb_photo']);
 
-            setUserInfo({'mb_id': js['mb_id'], 'mb_nick': js['mb_nick'], 'mb_hp': js['mb_hp']});
+            setUserInfo({'mb_id': js['mb_id'], 'mb_password': js['mb_password'], 'mb_group': js['mb_group'] , 'mb_nick': js['mb_nick'], 'mb_hp': js['mb_hp'], 'mb_photo': js['mb_photo']});
 
             Navigator.pop(context);
           } else {

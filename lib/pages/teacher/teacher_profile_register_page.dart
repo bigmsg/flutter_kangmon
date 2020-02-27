@@ -1,25 +1,49 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_photo_register_page.dart';
-import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
+import 'package:flutter_kangmon/pages/lesson/lesson_photo_register_provider_page.dart';
+import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
 import 'package:flutter_kangmon/pages/lesson/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import 'package:image_picker/image_picker.dart';
 
-class TeacherRegisterPage extends StatefulWidget {
+
+class TeacherProfileRegisterPage extends StatefulWidget {
   @override
-  _TeacherRegisterPageState createState() => _TeacherRegisterPageState();
+  _TeacherProfileRegisterPageState createState() => _TeacherProfileRegisterPageState();
 }
 
-class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
+class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage> {
 
   File _image;
-  TextEditingController _careerController = TextEditingController();
+  TextEditingController _profileController = TextEditingController();
+  TextEditingController _hpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    String greeting = '';
+    _hpController.text = currentUser.mb_hp;
+
+    print(currentUserBloc.data);
+    currentUserBloc.data.last.then((user) {
+      //_profileController.text = user.mb_id;
+      //print(value.mb_id);
+
+    });
+    //var a = await currentUserBloc.data.first;
+    //print(a.);
+    void hello() async {
+      var user = await currentUserBloc.data.last;
+      _profileController.text = user.mb_id;
+      //greeting = user.mb_nick;
+
+    }
+    hello();
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('강사등록'),
@@ -29,11 +53,24 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
         child: ListView(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Text(greeting),
+              StreamBuilder(
+                stream: currentUserBloc.data,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    return Text(snapshot.data.mb_id);
+                  }else {
+                    return Text('hello');
+                  }
+                },
+              ),
+
               Text('강사등록비는 2020년까지 무료입니다.\n금액은 차후에 결정됩니다.'),
               SizedBox(height: 20,),
               TextField(
-                controller: _careerController,
+                controller: _profileController,
                 keyboardType: TextInputType.multiline,
+                minLines: 3,
                 maxLines: null,
                 //obscureText: false,
                 style: TextStyle(
@@ -43,6 +80,19 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "경력 및 자격증"
+                ),
+              ),
+              SizedBox(height: 10,),
+
+              TextField(
+                controller: _hpController,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "휴대폰"
                 ),
               ),
               SizedBox(height: 20,),
@@ -79,7 +129,7 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
                   FlatButton(
                     child: Text('레슨등록'),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => LessonRegisterPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => LessonContentRegisterPage()));
                     },
                   ),
 

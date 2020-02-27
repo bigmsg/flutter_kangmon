@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/main.dart';
-import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
+import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PortfolioRegisterPage extends StatefulWidget {
+class ProfileRegisterPage extends StatefulWidget {
   @override
-  _PortfolioRegisterPageState createState() => _PortfolioRegisterPageState();
+  _ProfileRegisterPageState createState() => _ProfileRegisterPageState();
 }
 
-class _PortfolioRegisterPageState extends State<PortfolioRegisterPage> {
+class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
 
   String mb_id = '';
   @override
@@ -44,7 +45,7 @@ class _PortfolioRegisterPageState extends State<PortfolioRegisterPage> {
           ),
 
           FlatButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LessonRegisterPage())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LessonContentRegisterPage())),
             child: Text('레슨등록'),
           ),
         ]

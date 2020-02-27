@@ -13,8 +13,10 @@ Future initialApp() async {
   if (pref.containsKey('mb_id')) {
     print('initialApp(): have key mb_id');
     currentUser.mb_id = pref.getString('mb_id');
+    currentUser.mb_group = pref.getString('mb_group');
     currentUser.mb_nick = pref.getString('mb_nick');
     currentUser.mb_hp = pref.getString('mb_hp');
+    currentUser.mb_photo = pref.getString('mb_photo');
 
 
   } else {

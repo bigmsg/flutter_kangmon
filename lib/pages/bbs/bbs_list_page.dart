@@ -48,11 +48,13 @@ class _BbsListPageState extends State<BbsListPage> {
         Navigator.push(context, MaterialPageRoute(builder: (_) => BbsDetailPage(post: post) ));
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(post.wr_subject),
+            Text(post.wr_subject, style: TextStyle(
+              fontSize: 18.0
+            ),),
             Text(post.wr_datetime),
           ],
         ),

@@ -3,8 +3,8 @@ import 'package:flutter_kangmon/help/common.dart';
 import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/data/data.dart';
-import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
-import 'package:flutter_kangmon/pages/teacher/teacher_register_page.dart';
+import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
+import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +12,7 @@ import 'dart:convert';
 
 import '../member/login_page.dart';
 import 'lesson_detail_page.dart';
-import '../teacher/portfolio_register_page.dart';
+import '../teacher/profile_register_page.dart';
 
 
 
@@ -63,52 +63,6 @@ class _LessonListState extends State<LessonListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        //centerTitle: true,
-        title: Text('미용자격증 코칭몬',
-          style: TextStyle(
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        /*leading: IconButton(
-          icon: Icon(Icons.account_circle),
-          iconSize: 30.0,
-          onPressed: () {},
-        ),*/
-        actions: <Widget>[
-          FlatButton(
-            child: Text('설정',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-            ),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherRegisterPage())),
-          ),
-          FlatButton(
-            child: Text('강사등록',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-            ),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherRegisterPage())),
-          ),
-          StreamBuilder<User>(
-            stream: currentUserBloc.data,
-            builder: (context, snapshot) {
-              //if(snapshot.hasData && snapshot.data.mb_id != '') {
-              if(snapshot.hasData) {
-                return _buildLogout(context);
-              } else {
-                return _buildLogin(context);
-              }
-            },
-          ),
-
-        ],
-      ),*/
-
       body: Container(
         child: ListView.separated(
             itemCount: lessons.length,
@@ -129,42 +83,6 @@ class _LessonListState extends State<LessonListPage> {
   }
 
 
-  /*
-  _buildLogin(BuildContext context) {
-    return /*FlatButton(
-      child: Text('Login',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-        ),
-      ),
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-    );*/
-    IconButton(
-      icon: Icon(Icons.alarm_add),
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-    );
-      //CircularProgressIndicator();
-  }
-
-  _buildLogout(BuildContext context) {
-    return FlatButton(
-      child: Text('Logout',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-        ),
-      ),
-      onPressed: () {
-        logout();
-      },
-    );
-  }*/
-
   _buildLesson(BuildContext context, Lesson lesson) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -180,8 +98,8 @@ class _LessonListState extends State<LessonListPage> {
                 child: Hero(
                   tag: lesson.portfolio.imgUrl[0],
                   child: Image(
-                    width: 80.0,
-                    height: 50.0,
+                    width: 120.0,
+                    height: 80.0,
                     image: AssetImage(lesson.portfolio.imgUrl[0]),
                     //image: AssetImage('assets/images/1.jpg'),
                     fit: BoxFit.cover,
@@ -201,8 +119,15 @@ class _LessonListState extends State<LessonListPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(lesson.subject),
-                    Text(lesson.local),
+                    Text(lesson.subject, style:
+                      TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600
+                      ),),
+                    Text(lesson.local, style: TextStyle(
+                      fontSize: 16,
+                      //fontWeight: FontWeight.
+                    ),),
                     //Text('${lesson.price}'),
                   ],
                 ),

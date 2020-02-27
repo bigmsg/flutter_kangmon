@@ -147,6 +147,7 @@ final _post1 = Post(
 밤마다 잠이안와요\n
 인생곧불혹인데\n""",
   wr_datetime: '2020-02-25 09:00',
+  is_comment: false,
 );
 final _post2 = Post(
   wr_id: 1,
@@ -155,6 +156,7 @@ final _post2 = Post(
   wr_subject: '승인해주세요.',
   wr_content: '비밀번호 변경 어떻게 하나요?',
   wr_datetime: '2020-02-25 09:00',
+  is_comment: false,
 );
 
 final _post3 = Post(
@@ -164,6 +166,7 @@ final _post3 = Post(
   wr_subject: '광고문의합니다.',
   wr_content: '강사등록 어떻게 하나요?',
   wr_datetime: '2020-02-25 09:00',
+  is_comment: false,
 );
 
 final _post4 = Post(
@@ -173,15 +176,67 @@ final _post4 = Post(
   wr_subject: '통화가 되질 않습니다.',
   wr_content: '강사등록 어떻게 하나요?',
   wr_datetime: '2020-02-25 09:00',
+  is_comment: false,
 );
 
 final _post5 = Post(
   wr_id: 1,
   mb_id: 'gt',
   mb_nick: '양팀장',
-  wr_subject: '점프는 어떻게 하나요?',
+  wr_subject: '강의는 어떻게 결제하나요?',
   wr_content: '강사등록 어떻게 하나요?',
   wr_datetime: '2020-02-25 09:00',
+  is_comment: false,
+);
+
+
+final _comment1 = Post(
+  wr_id: 1,
+  mb_id: 'star5',
+  mb_nick: '양팀장',
+  wr_subject: null,
+  wr_content: '종아리만 합니다.',
+  wr_datetime: '2020-02-25 09:00',
+  is_comment: true,
+);
+final _comment2 = Post(
+  wr_id: 1,
+  mb_id: 'chunsik',
+  mb_nick: '김춘식',
+  wr_subject: null,
+  wr_content: '최근에 보셨나요? 손들고 먼저 허벅에다 한다고말하고 있습니다. \n잘지키세요.\n합격하시고 꼭 후겨 올려주세요.',
+  wr_datetime: '2020-02-25 09:00',
+  is_comment: true,
+);
+
+final _comment3 = Post(
+  wr_id: 1,
+  mb_id: 'hyunju',
+  mb_nick: '진현주',
+  wr_subject: null,
+  wr_content: '화이팅합니다.\n저도 꼭 합격하고 싶네요.',
+  wr_datetime: '2020-02-25 09:00',
+  is_comment: true,
+);
+
+final _comment4 = Post(
+  wr_id: 1,
+  mb_id: 'sangsuk',
+  mb_nick: '김상석',
+  wr_subject: null,
+  wr_content: '현주님은 언제 시험인가요?\n피부 보시는 건가요?',
+  wr_datetime: '2020-02-25 09:00',
+  is_comment: true,
+);
+
+final _comment5 = Post(
+  wr_id: 1,
+  mb_id: 'gildong',
+  mb_nick: '홍길동',
+  wr_subject: null,
+  wr_content: '이제까지 5번 떨어졌어요.\n이번엔 꼭 합격하고 싶네요.',
+  wr_datetime: '2020-02-25 09:00',
+  is_comment: true,
 );
 
 final List<Post> posts = [
@@ -189,7 +244,7 @@ final List<Post> posts = [
 ];
 
 final List<Post> comments = [
-  _post2, _post3, _post4, _post5
+  _comment1, _comment2, _comment3, _comment4, _comment5
 ];
 
 
@@ -200,44 +255,6 @@ final List<Lesson> lessons = [
 
 
 
-class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현가능함
-  List<dynamic> _image = [null, null, null, null, null, null];
-  List<dynamic> get image => _image;
 
-  LessonPhotos() {
-    fetch();
-  }
-
-  void fetch() async {
-    print('LessonPhotos fetch()');
-    print('start request');
-    var res = await http.get(getPhotosUrl);
-    print('end request');
-    print(res.body);
-
-    var js = json.decode(res.body);
-    //List<dynamic> photos = [];
-    //_image = [];
-    for(var i=0; i< js.length; i++) {
-      print(js[i]);
-      if (js[i] == 'null') {
-        _image[i] = null;
-      } else {
-        _image[i] = js[i];
-      }
-    }
-    print(_image);
-    notifyListeners();
-  }
-
-  void change(int index, dynamic url) {
-    _image[index] = url;
-    notifyListeners();
-  }
-
-  void remove(int index)  {
-    _image[index] = null;
-    notifyListeners();
-  }
-
-}
+final currentUserBloc = CurrentUserBloc();
+final lessonPhotosBloc = LessonPhotoBloc();

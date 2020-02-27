@@ -10,36 +10,29 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
 
+/*
+  폐기된 파일
+  20.02.27
+
+  provider 사용한 상태관리 예제
+  - rxdart bloc 패턴이 심플한 것 같아서
+  - rxdart bloc 패턴으로 소스 변경함
+  - lesson_photo_register_page.dart
+
+
+ */
 
 
 class LessonPhotoRegisterPage2 extends StatefulWidget {
   @override
-  _LessonPhotoRegisterPage2State createState() => _LessonPhotoRegisterPage2State();
+  _LessonPhotoRegisterPageState2 createState() => _LessonPhotoRegisterPageState2();
 }
 
-class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
-
-  List<dynamic> _image = [null];
-  //List<String> _imageUrl = [];
+class _LessonPhotoRegisterPageState2 extends State<LessonPhotoRegisterPage2> {
 
   @override
   Widget build(BuildContext context) {
-    //_getPhotos();
 
-    /*return Scaffold(
-      appBar: AppBar(
-        title: Text('레슨 사진등록'),
-      ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        /*children: List.generate(_image.length, (index) {
-          return _buildPhoto(index);
-        }),*/
-        children: _buildChild(),
-
-
-      ),
-    );*/
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LessonPhotos()),
@@ -50,14 +43,24 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('레슨 사진등록')
+              title: Text('레슨 사진등록(업데이트)')
           ),
           body: GridView.count(
+            padding: EdgeInsets.all(10.0),
             crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 1.5,
+            //maxCrossAxisExtent: 150,
+            //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,),
             children: List.generate(photos.image.length, (index) {
-                return _buildPhoto(photos, index);
+              return _buildPhoto(photos, index);
             }),
           ),
+          /*body: GridView.builder(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 150, mainAxisSpacing: 4, crossAxisSpacing: 4),
+            itemBuilder: null
+          ),*/
         );
       },),
     );
@@ -65,8 +68,6 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
 
 
   _buildPhoto(dynamic photos, int index) {
-    //return Text('index: ${_image[index]}');
-    //Image photo;
 
     if (photos.image[index] == null || photos.image[index] == 0) {
       return Center(
@@ -74,17 +75,15 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
           alignment: Alignment.center,
           children: <Widget>[
             Container(
-              height: 150,
-              width: 180,
+              height: 120.0,
+              width: 180.0,
               decoration: BoxDecoration(
-                //color: Colors.lightGreen,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(width: 0.5),
-
               ),
             ),
             Positioned(
-              bottom: 60.0,
+              bottom: 45.0,
               child: Column(
                 children: <Widget>[
                   photos.image[index] == null ? Icon(
@@ -111,7 +110,6 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
                     _pickImage(photos, index);
                   },
                 ),
-
               ),
             ),
           ],
@@ -120,39 +118,24 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
 
 
     } else {
-      return /*Center(
-        child: Container(
-          child: Image(
-            height: 150,
-            width: 180,
-            image: FileImage(_image[index]),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );*/
-        Center(
+      return Center(
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
               Container(
-                height: 150, width: 180,
+                height: 120.0, width: 180.0,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      //image: Image.network(_image[index]),
-                      //image: AssetImage('assets/images/1.jpg'),
-                      //image: NetworkImage('http://www.massagemania.co.kr/data/file/gooin/thumb-237413926_WfK3t6Ew_0333f3c1fc1a637708742af47c1edc3566074dce_350x150.jpg'),
                         image: NetworkImage(photos.image[index]),
                         fit: BoxFit.cover
                     ),
                     borderRadius: BorderRadius.circular(10.0)
                 ),
-                //child: StreamBuilder(),
               ),
 
               Positioned(
                 bottom: 10, right: 10,
                 child: Container(
-                  //width: 30.0, height: 30.0,
                   decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(30.0)
@@ -178,6 +161,7 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
   Future _pickImage(dynamic photos, int index) async {
     print('call getImage()');
     var file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    //var file = await ImagePicker.pickVideo(source: ImageSource.gallery); // video 선택하기
 
     // 서버에 즉시 저장하기
     print('start upload');
@@ -203,7 +187,7 @@ class _LessonPhotoRegisterPage2State extends State<LessonPhotoRegisterPage2> {
       "image": base64Image,
       "name": fileName,
     });
-        /*.then((res) {
+    /*.then((res) {
       print(res.statusCode);
       print(res.body);
     }).catchError((err) {
