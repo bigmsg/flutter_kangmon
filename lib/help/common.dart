@@ -11,10 +11,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future initialApp() async {
   //SharedPreferences.setMockInitialValues({});
   SharedPreferences pref = await SharedPreferences.getInstance();
-  print(currentUser.mb_id);
+  //print(currentUser.mb_id);
   //print('mb_id: ' + pref.getString('mb_id'));
 
-  if (pref.containsKey('mb_id')) {
+  /*if (pref.containsKey('mb_id')) {
     print('initialApp(): have key mb_id');
     currentUser.mb_id = pref.getString('mb_id');
     currentUser.mb_group = pref.getString('mb_group');
@@ -25,7 +25,7 @@ Future initialApp() async {
 
   } else {
     print('not have key mb_id');
-  }
+  }*/
 }
 
 

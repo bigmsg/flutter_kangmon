@@ -23,11 +23,11 @@ final getPhotosUrl = _appUrl + '/get_photos.php';
 
 
 
-var currentUser = User(
+/*var currentUser = User(
   mb_id: '',
   mb_nick: '',
   mb_hp: ''
-);
+);*/
 //var currentUser = User();
 
 final _user1 = User(

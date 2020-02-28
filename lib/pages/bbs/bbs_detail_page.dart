@@ -126,7 +126,7 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
                     Icon(Icons.person),
                     SizedBox(width: 5,),
                     Text(comment.wr_content, style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 12.0,
                     ),),
                   ],
                 ),

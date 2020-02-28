@@ -25,22 +25,16 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
   @override
   Widget build(BuildContext context) {
 
-    _hpController.text = currentUser.mb_hp;
+    //_hpController.text = currentUser.mb_hp;
 
-    /*
-        위젯 만들어지기전에 code에서 값 변경하기
-     */
-    /*
-    var photos = Provider.of<LessonPhotos>(context, listen: false);
-    print('teacher profile register page');
-    print(photos.image);
-    for(var i=0; i< photos.image.length; i++) {
-      photos.image[i] = 0;
-    }*/
 
+    final currentUser = Provider.of<CurrentUser>(context);
+    _hpController.text = currentUser.data.mb_hp;
 
     var mb = Provider.of<CurrentUser>(context);
     print('teacher profile mb_nick: ' + mb.data.mb_nick);
+    print(WidgetsBinding.instance.window.platformBrightness);
+    print('${MediaQuery.of(context).platformBrightness}');
 
     return Scaffold(
       appBar: AppBar(
@@ -60,10 +54,6 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
                 minLines: 3,
                 maxLines: null,
                 //obscureText: false,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "경력 및 자격증"
@@ -73,10 +63,7 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
 
               TextField(
                 controller: _hpController,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
+                style: TextStyle(),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "휴대폰"
@@ -105,6 +92,8 @@ class _TeacherProfileRegisterPageState extends State<TeacherProfileRegisterPage>
                   ),
                   color: Colors.yellow,
                   onPressed: () {
+                    print('profile brightness');
+                    print('${MediaQuery.of(context).platformBrightness}');
                     //_onSubmit(context);
                   },
                 ),

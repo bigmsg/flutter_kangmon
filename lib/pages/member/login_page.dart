@@ -105,22 +105,46 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               // 로그인
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  child: Text(
-                    "로그인",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/3,
+                    height: 50,
+                    child: RaisedButton(
+                      child: Text(
+                        "강사로그인",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      color: Colors.grey,
+                      onPressed: () {
+                        idController.text = 'bigmsg';
+                        passwordController.text = '0000';
+                        onSubmit(context);
+                      },
                     ),
                   ),
-                  color: Colors.yellow,
-                  onPressed: () {
-                    onSubmit(context);
-                  },
-                ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/3,
+                    height: 50,
+                    child: RaisedButton(
+                      child: Text(
+                        "로그인",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      color: Colors.yellow,
+                      onPressed: () {
+                        onSubmit(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
 
               FlatButton(

@@ -4,6 +4,7 @@ import 'package:flutter_kangmon/main.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
+import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
 import 'package:http/http.dart' as http;
@@ -65,7 +66,40 @@ class _LessonListState extends State<LessonListPage> {
   @override
   Widget build(BuildContext context) {
 
+    var currentUser = Provider.of<CurrentUser>(context);
+
+
     return Scaffold(
+      appBar: AppBar(
+
+        //centerTitle: true,
+        title: Text('미용코칭몬', style: TextStyle(
+            fontSize: 13.0
+        ),),
+
+        flexibleSpace: FlexibleSpaceBar(title: Text(''),),
+        //titleSpacing: EdgeInsets.all(0.0),
+
+        actions: <Widget>[
+          FlatButton(
+              child: Text('설정'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage()));
+                //MaterialPageRoute(builder: (_) => TestPage()));
+              }
+          ),
+          FlatButton(
+            child: Text('강사등록'),
+            onPressed: () =>
+
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage())),
+          ),
+          currentUser.data.mb_id == '' ? _buildLogin(context) : _buildLogout(context),
+
+        ],
+      ),
       body: Container(
         child: ListView.separated(
             itemCount: lessons.length,
@@ -124,13 +158,9 @@ class _LessonListState extends State<LessonListPage> {
                   children: <Widget>[
                     Text(lesson.subject, style:
                       TextStyle(
-                        fontSize: 18.0,
                         fontWeight: FontWeight.w600
                       ),),
-                    Text(lesson.local, style: TextStyle(
-                      fontSize: 16,
-                      //fontWeight: FontWeight.
-                    ),),
+                    Text(lesson.local),
                     //Text('${lesson.price}'),
                   ],
                 ),
@@ -142,6 +172,27 @@ class _LessonListState extends State<LessonListPage> {
     );
 
   }
+
+  _buildLogin(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.alarm_add),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+      },
+    );
+    //CircularProgressIndicator();
+  }
+
+  _buildLogout(BuildContext context) {
+    return FlatButton(
+      child: Text('Logout',),
+      onPressed: () {
+        logout(context);
+      },
+    );
+  }
+
+
 }
 
 

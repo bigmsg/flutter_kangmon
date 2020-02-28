@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
+import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
 import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/pages/bbs/bbs_list_page.dart';
 import 'package:flutter_kangmon/pages/member/login_page.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_list_page.dart';
+import 'package:flutter_kangmon/pages/teacher/teacher_home.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
 import 'package:provider/provider.dart';
 
 import '../main.dart';
+import 'admin/admin_home.dart';
 import 'lesson/lesson_detail_page.dart';
 import 'lesson/test.dart';
 import 'member/mypage_page.dart';
@@ -17,9 +21,11 @@ import 'member/mypage_page.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
+
 
   //TabController ctr;
   /*@override void initState() {
@@ -43,76 +49,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-
     var currentUser = Provider.of<CurrentUser>(context);
+    var photos = Provider.of<LessonPhotos>(context);
     print('home page(mb_nick): ${currentUser.data.mb_group}');
 
+    bool isAdmin = ['super', 'teacher'].contains(currentUser.data.mb_group);
+    bool isSuper = ['super'].contains(currentUser.data.mb_group);
 
 
     //return LessonListPage();
     return DefaultTabController(
-        length: currentUser.data.mb_group == 'super' ? 5: 4,
+        length: isAdmin ? 4: 3,
         //length: 4,
         child: Scaffold(
-          appBar: AppBar(
-            //centerTitle: true,
-            title: Text('미용코칭몬',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            /*leading: IconButton(
-            icon: Icon(Icons.account_circle),
-            iconSize: 30.0,
-            onPressed: () {},
-          ),*/
-            actions: <Widget>[
-              FlatButton(
-                child: Text('설정',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-                onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage()));
-                        //MaterialPageRoute(builder: (_) => TestPage()));
-                  }
-              ),
-              FlatButton(
-                child: Text('강사등록',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-                onPressed: () =>
-
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage())),
-              ),
-              StreamBuilder<User>(
-                stream: currentUserBloc.data,
-                builder: (context, snapshot) {
-                  //if(snapshot.hasData && snapshot.data.mb_id != '') {
-                  if (snapshot.hasData) {
-                    return _buildLogout(context);
-                  } else {
-                    return _buildLogin(context);
-                  }
-                },
-              ),
-
-            ],
-          ),
           bottomNavigationBar: Material(
             //color: Colors.grey,
             child: Container(
               //height: 65,
               child: TabBar(
                 //controller: ctr,
-                tabs: currentUser.data.mb_group == 'super' ? _buildTabBar5() : _buildTabBar4(),
+                tabs: isAdmin ? _buildTabBar4(isSuper) : _buildTabBar3(),
               ),
 
               decoration: BoxDecoration(
@@ -129,103 +85,60 @@ class _HomePageState extends State<HomePage> {
           ),
           body: TabBarView(
             //controller: ctr,
-            children: currentUser.data.mb_group == 'super' ? _buildPage5() : _buildPage4(),
+            children: isAdmin ? _buildPage4(isSuper) : _buildPage3(),
           ),
         ),
       );
     }
 
-    _buildLogin(BuildContext context) {
-      return IconButton(
-          icon: Icon(Icons.alarm_add),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-          },
-        );
-      //CircularProgressIndicator();
-    }
 
-    _buildLogout(BuildContext context) {
-      return FlatButton(
-        child: Text('Logout',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          ),
-        ),
+
+  _buildTabBar4(bool isSuper) {
+
+    return <Widget>[
+      Tab(child: Text('레슨', style: TextStyle(
+        fontSize: 12
+      ),),),
+
+      isSuper ? Tab(child: FlatButton(
+        child: Text('영자방',),
         onPressed: () {
-          logout(context);
+          Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHome()));
         },
-      );
-    }
+      ),)
 
-  _buildTabBar5() {
+      : Tab(child: FlatButton(
+        child: Text('강사'),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherHome()));
+        },
+      ),),
+
+      Tab(child: Text('게시판'),),
+      Tab(child: Text('MY'),),
+    ];
+
+  }
+
+  _buildTabBar3() {
     return <Widget>[
       Tab(child: Text('레슨', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
-      ),),),
-
-      Tab(child: Text('영자방', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
-      ),),),
-
-      Tab(child: Text('레슨관리', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
+          fontSize: 12
       ),),),
       Tab(child: Text('게시판', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
+        fontSize: 12
       ),),),
-
       Tab(child: Text('MY', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
+          fontSize: 12
       ),),),
     ];
 
   }
 
-  _buildTabBar4() {
-    return <Widget>[
-      Tab(child: Text('레슨', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      //color: Colors.white,
-      ),),),
-
-      Tab(child: Text('레슨관리', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
-      ),),),
-      Tab(child: Text('게시판', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
-      ),),),
-
-      Tab(child: Text('MY', style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        //color: Colors.white,
-      ),),),
-    ];
-
-  }
-
-  _buildPage5() {
+  _buildPage4(bool isSuper) {
     return <Widget>[
       LessonListPage(),
-      Text('영자방'),
-      Text('레슨관리'),
+      isSuper ? AdminHome() : TeacherHome(),
       BbsListPage(),
       MyPage(),
 
@@ -233,10 +146,9 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  _buildPage4() {
+  _buildPage3() {
     return <Widget>[
       LessonListPage(),
-      Text('레슨관리'),
       BbsListPage(),
       MyPage(),
 
