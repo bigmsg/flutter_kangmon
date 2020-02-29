@@ -58,7 +58,7 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
               FlatButton(
                 child: Text('댓글을 남겨주세요'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: widget.post, w: null)));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: widget.post, w: 'c')));
                 },
               ),
             ],
@@ -136,7 +136,7 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
               FlatButton(
                 child: Text('수정하기'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: comment, w: 'u')));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: comment, w: 'cu')));
                 },
               ),
             ],

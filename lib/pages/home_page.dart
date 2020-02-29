@@ -103,14 +103,17 @@ class _HomePageState extends State<HomePage> {
       isSuper ? Tab(child: FlatButton(
         child: Text('영자방',),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHome()));
+          //Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHome()));
+          Navigator.pushNamed(context, '/AdminHome');
+          //Navigator.push(context, '');
         },
       ),)
 
       : Tab(child: FlatButton(
         child: Text('강사'),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherHome()));
+          Navigator.pushNamed(context, '/TeacherHome');
+          //Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherHome()));
         },
       ),),
 

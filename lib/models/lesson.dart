@@ -15,7 +15,10 @@ class User {
   String mb_hp;
   String mb_photo;
 
-  User({this.mb_id, this.mb_password, this.mb_group, this.mb_nick, this.mb_hp, this.mb_photo});
+  User({
+    this.mb_id, this.mb_password, this.mb_group,
+    this.mb_nick, this.mb_hp, this.mb_photo
+  });
 }
 
 
@@ -59,7 +62,7 @@ class Post {
 
 
 
-class CurrentUserBloc {
+/*class CurrentUserBloc {
   //final _userSubject = BehaviorSubject<User>();
   final _userSubject = BehaviorSubject.seeded(User()); // 초기값 설정가능
   //final _number = BehaviorSubject.seeded(0); // int 초기값 설정
@@ -90,7 +93,7 @@ class CurrentUserBloc {
     }
   }
 
-}
+}*/
 
 
 class LessonPhotoBloc {

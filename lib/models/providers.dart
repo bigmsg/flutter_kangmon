@@ -36,7 +36,9 @@ class TestUser with ChangeNotifier {
 }
 
 class CurrentUser extends ChangeNotifier {
-  User _currentUser = User(mb_id: '', mb_password: '', mb_group: '', mb_nick: '', mb_hp: '', mb_photo: ''); // 초기값 설정가능
+  User _currentUser = User(
+      mb_id: '', mb_password: '', mb_group: '', mb_nick: '', mb_hp: '', mb_photo: ''
+  ); // 초기값 설정가능
 
   get data => _currentUser;
 
@@ -46,17 +48,21 @@ class CurrentUser extends ChangeNotifier {
 
   void fetch() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    if(pref.containsKey('mb_id')) {
+
+    if(pref.containsKey('userInfo')) {
+      var userInfo = json.decode(pref.getString('userInfo'));
       _currentUser = User(
-        mb_id: pref.getString('mb_id'),
-        mb_group: pref.getString('mb_group'),
-        mb_nick: pref.getString('mb_nick'),
-        mb_hp: pref.getString('mb_hp'),
-        mb_photo: pref.getString('mb_photo'),
+        mb_id: userInfo['mb_id'],
+        mb_group: userInfo['mb_group'],
+        mb_nick: userInfo['mb_nick'],
+        mb_hp: userInfo['mb_hp'],
+        mb_photo: userInfo['mb_photo']
       );
 
     } else {
-      _currentUser = User(mb_id: '', mb_password: '', mb_nick: '', mb_group: '', mb_hp: '', mb_photo: '');
+      _currentUser = User(
+          mb_id: '', mb_password: '', mb_nick: '', mb_group: '', mb_hp: '', mb_photo: ''
+      );
     }
 
     notifyListeners();

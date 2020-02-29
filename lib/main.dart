@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_kangmon/models/app_state_provider.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/pages/admin/admin_home.dart';
 import 'package:flutter_kangmon/pages/home_page.dart';
+import 'package:flutter_kangmon/pages/teacher/teacher_home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_kangmon/help/common.dart';
@@ -31,6 +34,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider.value(value: LessonPhotos(),),
         ChangeNotifierProvider.value(value: CurrentUser(),),
+        ChangeNotifierProvider.value(value: AppStateProvider(),),
         //ChangeNotifierProvider(create: (_) => LessonPhotos()),
         //ChangeNotifierProvider.value(value: TestUser(),),
       ],
@@ -53,81 +57,32 @@ class MyApp extends StatelessWidget {
     print('Brightness');
     print(WidgetsBinding.instance.window.platformBrightness); // should print Brightness.light / Brightness.dark when you switch
 
+    var app = Provider.of<AppStateProvider>(context, listen: false);
+    /*print('id: ' + app.device.deviceId);
+    print('version: ' + app.device.version);
+    print('platform: ' +app.device.platform);
+    print('machine: ' + app.device.machine);
 
+     */
 
     return MaterialApp(
       title: '강사몬',
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      /*theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[50],
-        //primaryColor: Color.fromRGBO(245, 171, 161, 1), // 진한 살색
-        textTheme: TextTheme(
-          headline: TextStyle(
-            fontSize: 10,
-          ),
-          title: TextStyle(
-              fontSize: 10
-          ),
-          subtitle: TextStyle(
-              fontSize: 10
-          ),
-          caption: TextStyle(
-            fontSize: 10,
-          ),
-          button: TextStyle(
-            color: Colors.pink,
-            fontSize: 12,
-          ),
+      /*routes: <String, WidgetBuilder> {
+        '/AdminHome': (BuildContext context) => AdminHome(),
+        '/TeacherHome' : (BuildContext context) => TeacherHome(),
+      },*/
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/AdminHome': (context) => AdminHome(),
+        '/TeacherHome': (context) => TeacherHome(),
+      },
 
-          body1: TextStyle( // 목록, 대부분의 글짜 크기
-              fontSize: 12
-          ),
+      //home: HomePage(),
 
-          body2: TextStyle(
-              fontSize: 30
-          ),
-          display1: TextStyle(
-            fontSize: 10,
-          ),
-          display2: TextStyle(
-            fontSize: 10,
-          ),
-          display3: TextStyle(
-            fontSize: 20,
-          ),
-          display4: TextStyle(
-            fontSize: 20,
-          ),
-
-          subhead: TextStyle( // TextField
-            fontSize: 14,
-          ),
-
-          overline: TextStyle(
-            fontSize: 10,
-          ),
-        ),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.pink,
-          height: 120.0,
-          //textTheme: ButtonTextTheme.primary,
-
-        ),
-        textSelectionColor: Colors.pink,
-        primaryColor: Colors.teal,
-        //primaryColorBrightness: Brightness.dark, // 기본 글자색이 검정색이 됨
-
-        //primaryColor: Colors.deepOrangeAccent,
-        //primaryColor: Color.fromRGBO(207, 227, 255, 1), // 하늘색
-        //primaryColor: Color.fromRGBO(237, 56, 145, 1), // 핑크
-        //primaryColor: Color.fromRGBO(24, 248, 222, 1), // 밝은 녹색
-        //primaryColor: Color.fromRGBO(255, 230, 200, 1), // 밝은 살색
-        //primarySwatch: Colors.blue,
-      ),*/
-
-      home: HomePage(),
     );
 
 

@@ -154,17 +154,22 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
     String base64Image = base64Encode(file.readAsBytesSync());
     String fileName = file.path.split("/").last;
 
-    var res = await http.post(photoRegisterUrl, body: {
+    /*var res = await http.post(photoRegisterUrl, body: {
+      "image": base64Image,
+      "name": fileName,
+    });*/
+    var res = await request.post(photoRegisterUrl, body: {
       "image": base64Image,
       "name": fileName,
     });
+
     /*.then((res) {
       print(res.statusCode);
       print(res.body);
     }).catchError((err) {
       print(err);
     });*/
-    print('body: ' + res.body);
+    print('body: ' + res.content());
     //var js = json.decode(res.body);
     //photos.image[index] = res.body;
     //photos.change(index, res.body);

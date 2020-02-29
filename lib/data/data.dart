@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/help/my_requests.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 final _host = 'https://www.kbschool.co.kr';
 final _appdir = '_mobileapp/kangmon';
-final _appUrl = _host + '/' + _appdir;
+final _bbsdir = 'bbs';
+final appUrl = _host + '/' + _appdir;
 
-final loginUrl = _appUrl + '/login_check.php';
-final registerUrl = _appUrl + '/login_check.php';
+final loginUrl = appUrl + '/login_check.php';
+final logoutUrl = appUrl + '/logout.php';
+final registerUrl = appUrl + '/login_check.php';
 
-final lessonRegisterUrl = _appUrl + '/login_check.php';
-final lessonListUrl = _appUrl + '/login_check.php';
-final lessonInfoUrl = _appUrl + '/login_check.php';
+final lessonRegisterUrl = appUrl + '/login_check.php';
+final lessonListUrl = appUrl + '/login_check.php';
+final lessonInfoUrl = appUrl + '/login_check.php';
 
-final portfolioRegisterUrl = _appUrl + '/login_check.php';
-final portfolioInfoUrl = _appUrl + '/login_check.php';
+final portfolioRegisterUrl = appUrl + '/login_check.php';
+final portfolioInfoUrl = appUrl + '/login_check.php';
+
+final bbsListUrl = appUrl + '/${_bbsdir}/list.php';
+final bbsUpdateUrl = appUrl + '/${_bbsdir}/write_update.php';
+final bbsCommentListUrl = appUrl + '/${_bbsdir}/comment_list.php';
+final bbsCommentUpdateUrl = appUrl + '/${_bbsdir}/write_comment_update.php';
 
 
-final photoRegisterUrl = _appUrl + '/upload_photo.php';
-final getPhotosUrl = _appUrl + '/get_photos.php';
+final photoRegisterUrl = appUrl + '/upload_photo.php';
+final getPhotosUrl = appUrl + '/get_photos.php';
 
 
 
@@ -82,7 +90,7 @@ final _portfolio3 = Portfolio(
 final _lesson1 = Lesson(
   user: _user1,
   portfolio: _portfolio1,
-  subject: '피부자격증 실기 소그룹코칭합니다.',
+  subject: '피부자격증 실기 소그룹코칭',
   content: '많이 떨어져서 어떻게 해야 할지 모르시는 분\n100%책임 합격보장합니다.',
   category: '피부자격증',
   price: 350000,
@@ -150,7 +158,7 @@ final _post1 = Post(
   is_comment: false,
 );
 final _post2 = Post(
-  wr_id: 1,
+  wr_id: 2,
   mb_id: 'gt',
   mb_nick: '양팀장',
   wr_subject: '승인해주세요.',
@@ -160,7 +168,7 @@ final _post2 = Post(
 );
 
 final _post3 = Post(
-  wr_id: 1,
+  wr_id: 3,
   mb_id: 'gt',
   mb_nick: '양팀장',
   wr_subject: '광고문의합니다.',
@@ -170,7 +178,7 @@ final _post3 = Post(
 );
 
 final _post4 = Post(
-  wr_id: 1,
+  wr_id: 4,
   mb_id: 'gt',
   mb_nick: '양팀장',
   wr_subject: '통화가 되질 않습니다.',
@@ -180,7 +188,7 @@ final _post4 = Post(
 );
 
 final _post5 = Post(
-  wr_id: 1,
+  wr_id: 5,
   mb_id: 'gt',
   mb_nick: '양팀장',
   wr_subject: '강의는 어떻게 결제하나요?',
@@ -191,7 +199,7 @@ final _post5 = Post(
 
 
 final _comment1 = Post(
-  wr_id: 1,
+  wr_id: 6,
   mb_id: 'star5',
   mb_nick: '양팀장',
   wr_subject: null,
@@ -200,7 +208,7 @@ final _comment1 = Post(
   is_comment: true,
 );
 final _comment2 = Post(
-  wr_id: 1,
+  wr_id: 7,
   mb_id: 'chunsik',
   mb_nick: '김춘식',
   wr_subject: null,
@@ -256,5 +264,8 @@ final List<Lesson> lessons = [
 
 
 
-final currentUserBloc = CurrentUserBloc();
+//final currentUserBloc = CurrentUserBloc();
 final lessonPhotosBloc = LessonPhotoBloc();
+
+
+final request = MyRequests();

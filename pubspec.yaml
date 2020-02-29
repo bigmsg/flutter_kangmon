@@ -28,6 +28,8 @@ dependencies:
   rxdart: ^0.23.1
   image_picker: ^0.6.3+4
   provider: ^4.0.3
+  requests: ^3.0.5
+  device_info: ^0.4.1+5 # 디바이스 정보구하기
 
 
 dev_dependencies:

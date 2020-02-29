@@ -129,19 +129,42 @@ class _LessonListState extends State<LessonListPage> {
               MaterialPageRoute(builder: (_) => LessonDetailPage(lesson: lesson))
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Hero(
-                  tag: lesson.portfolio.imgUrl[0],
-                  child: Image(
-                    width: 120.0,
-                    height: 80.0,
-                    image: AssetImage(lesson.portfolio.imgUrl[0]),
-                    //image: AssetImage('assets/images/1.jpg'),
-                    fit: BoxFit.cover,
+              Row(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: Hero(
+                      tag: lesson.portfolio.imgUrl[0],
+                      child: Image(
+                        width: 120.0,
+                        height: 80.0,
+                        image: AssetImage(lesson.portfolio.imgUrl[0]),
+                        //image: AssetImage('assets/images/1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
+
+                  SizedBox(width: 10.0),
+                  Container(
+                    //margin: EdgeInsets.all(10.0),
+                    //padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(lesson.subject, style:
+                        TextStyle(
+                            fontWeight: FontWeight.w600
+                        ),),
+                        Text(lesson.local),
+                        //Text('${lesson.price}'),
+                      ],
+                    ),
+                  ),
+
+                ],
               ),
 
               //Image.network('http://www.massagemania.co.kr/data/file/gooin/237413926_WfK3t6Ew_0333f3c1fc1a637708742af47c1edc3566074dce.jpg', width: 100.0, height: 100.0),
@@ -149,21 +172,12 @@ class _LessonListState extends State<LessonListPage> {
                 margin: EdgeInsets.all(10.0),
                 child: Text('hello'),
               ),*/
-              SizedBox(width: 10.0),
-              Container(
-                //margin: EdgeInsets.all(10.0),
-                //padding: EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(lesson.subject, style:
-                      TextStyle(
-                        fontWeight: FontWeight.w600
-                      ),),
-                    Text(lesson.local),
-                    //Text('${lesson.price}'),
-                  ],
-                ),
+
+
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+                color: Colors.white70,
               ),
 
             ],

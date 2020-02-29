@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 
 class BbsCommentRegisterPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
 
   // 새댓글, 수정
   _buildWrite() {
-    if (widget.post != null && widget.w == 'u') {
+    if (widget.post != null && widget.w == 'cu') {
       _contentController.text = widget.post.wr_content;
     }
 
@@ -37,16 +38,13 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
       child: ListView(
         children: <Widget>[
           SizedBox(height: 15,),
+          Text('wr_id: ${widget.post.wr_id}, w: ${widget.w}'),
 
           TextField(
             controller: _contentController,
             keyboardType: TextInputType.multiline,
             minLines: 3,
             maxLines: null,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "내용"
@@ -66,9 +64,7 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
                 ),
               ),
               color: Colors.yellow,
-              onPressed: () {
-                //_onSubmit(context);
-              },
+              onPressed: _onSubmit,
             ),
           ),
           SizedBox(height: 10,),
@@ -76,4 +72,20 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
       ),
     );
   }
+
+
+  _onSubmit() async {
+
+    var params = {
+        'bo_table': 'mico_qna',
+        'w': widget.w,
+        'wr_id': widget.post.wr_id,       // parent_id
+        'comment_id': widget.w == 'cu' ? widget.post.wr_id : '',  // 자신 댓글 comment_id
+        'wr_content': _contentController.text
+    };
+
+    var res = await request.post(bbsCommentUpdateUrl, body: params);
+    print(res.content());
+  }
+
 }
