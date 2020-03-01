@@ -64,7 +64,7 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
                 ),
               ),
               color: Colors.yellow,
-              onPressed: _onSubmit,
+              onPressed: () => _onSubmit(context),
             ),
           ),
           SizedBox(height: 10,),
@@ -74,7 +74,7 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
   }
 
 
-  _onSubmit() async {
+  _onSubmit(BuildContext context) async {
 
     var params = {
         'bo_table': 'mico_qna',
@@ -84,8 +84,12 @@ class _BbsCommentRegisterPageState extends State<BbsCommentRegisterPage> {
         'wr_content': _contentController.text
     };
 
-    var res = await request.post(bbsCommentUpdateUrl, body: params);
-    print(res.content());
+    await request.post(bbsCommentUpdateUrl, body: params);
+    //print(res.content());
+
+    Navigator.pop(context);
+
+
   }
 
 }

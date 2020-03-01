@@ -1,8 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
+import 'package:flutter_kangmon/models/comment_bloc.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/bbs/bbs_register_page.dart';
+import 'package:provider/provider.dart';
 
+import '../../main.dart';
 import 'bbs_comment_register_page.dart';
 
 
@@ -19,8 +23,13 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
 
   TextEditingController _priceController = TextEditingController();
 
+  //List<Post> comments = [];
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
+
+    commentsBloc.fetch('mico_qna', widget.post.wr_id);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.post.wr_subject),
@@ -96,10 +105,27 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
             ],
           ),
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildListComment(context),
+          StreamBuilder(
+            stream: commentsBloc.data,
+            builder: (context, snapshot) {
+              if(snapshot.hasData && snapshot.data.length > 0) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _buildListComment(context, snapshot.data),
+                );
+              } else {
+                return Text('데이터가 없습니다.');
+              }
+            },
           ),
+
+          /*Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            //children: _buildListComment(context, comments),
+            children: <Widget>[
+
+            ],
+          ),*/
           SizedBox(height: 100,),
 
         ],
@@ -110,8 +136,9 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
 
   }
 
-  _buildListComment(BuildContext context) {
+  _buildListComment(BuildContext context, dynamic comments) {
     List<Widget> commentList = [];
+    commentList.add(Text('데이터 있음'));
     comments.forEach((comment) {
       var tmp = Container(
           padding: EdgeInsets.all(10),
@@ -146,6 +173,30 @@ class _BbsDetailPageState extends State<BbsDetailPage> {
 
     });
     return commentList;
-    //return Text(comments[2].wr_subject);
+  }
+
+  _getComment(int wr_id) async {
+    var res = await request.get(bbsListUrl+'?bo_table=mico_qna&wr_id=${wr_id}');
+    List<Post> data = [];
+    print('----------- get comment ----------');
+    print(res.content());
+    var js = res.json();
+
+    js.forEach((item) {
+      data.add(Post(
+        wr_id: item['wr_id'],
+        mb_id: item['mb_id'],
+        mb_nick: item['mb_nick'],
+        wr_subject: item['wr_subject'],
+        wr_content: item['wr_content'],
+        wr_datetime: item['wr_datetime'],
+        is_comment: item['is_comment'],
+      ));
+    });
+
+    return data;
+    //setState(() {
+      //this.comments = data;
+    //});
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:provider/provider.dart';
 
 
 class BbsRegisterPage extends StatefulWidget {
@@ -37,6 +38,9 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
       child: ListView(
         children: <Widget>[
           SizedBox(height: 15,),
+          //Text('wr_id: ${widget.post.wr_id}'),
+          SizedBox(height: 15,),
+
           TextField(
             controller: _subjectController,
             decoration: InputDecoration(
@@ -70,7 +74,7 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
                 ),
               ),
               color: Colors.yellow,
-              onPressed: _onSubmit,
+              onPressed: () => _onSubmit(context),
             ),
           ),
           SizedBox(height: 10,),
@@ -79,7 +83,7 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
     );
   }
 
-  _onSubmit() async {
+  _onSubmit(BuildContext context) async {
     var params = {
       'bo_table': 'mico_qna',
       'w': widget.post == null ? '': 'u',
@@ -90,5 +94,8 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
     var res = await request.post(bbsUpdateUrl, body: params);
     print(res.content());
 
+    Navigator.pop(context);
+    if(widget.post != null)
+      Navigator.pop(context);
   }
 }

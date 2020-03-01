@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         idController.text = 'bigmsg';
                         passwordController.text = '0000';
-                        onSubmit(context);
+                        _onSubmit(context);
                       },
                     ),
                   ),
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       color: Colors.yellow,
                       onPressed: () {
-                        onSubmit(context);
+                        _onSubmit(context);
                       },
                     ),
                   ),
@@ -188,7 +188,25 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ),
+              SizedBox(height: 20,),
 
+              SizedBox(
+                width: MediaQuery.of(context).size.width/3,
+                height: 50,
+                child: RaisedButton(
+                  child: Text(
+                    "게시글 불러오기",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                  color: Colors.green,
+                  onPressed: () {
+
+                  },
+                ),
+              ),
 
               FlatButton(
                 child: Text("아직 회원이 아니신가요? 회원가입"),
@@ -206,11 +224,9 @@ class _LoginPageState extends State<LoginPage> {
 
     );
   }
-  /*void onSubmit() {
-    print("submit id: ${idController.text}, pass: ${passwordController.text}");
-  }*/
 
-  onSubmit(BuildContext context) async {
+
+  _onSubmit(BuildContext context) async {
 
     print("submit id: ${idController.text}, pass: ${passwordController.text}");
     var user = Provider.of<CurrentUser>(context, listen: false);
@@ -287,27 +303,9 @@ class _LoginPageState extends State<LoginPage> {
 
     pref.setString('userInfo', json.encode(userInfo));
     pref.setString('cookies', json.encode(cookies));
-    /*var v = pref.getString('userInfo');
-    var co = pref.getString('cookies');
-    var info = json.decode(v);
-    var co2 = json.decode(co);
-    print(info['mb_id']);
-    print(co2['PHPSESSID']);*/
 
-
-
-
-
-    /*await Requests.setStoredCookies(hostname, {
-      'PHPSESSID': jsdata['PHPSESSID'],
-      jsdata['key_ck_mb_id']: jsdata['val_ck_mb_id'],
-      jsdata['key_ck_auto']: jsdata['val_ck_auto'],
-    });*/
-
-
-    var cookies2 = await Requests.getStoredCookies(hostname);
-    print('------ new cookies ------');
-    print(cookies2);
+    await Provider.of<CurrentUser>(context, listen: false).fetch();
+    Navigator.pop(context);
 
 
 

@@ -9,31 +9,6 @@ import 'dart:convert';
 
 import 'lesson.dart';
 
-class TestUser with ChangeNotifier {
-  User _user = User(
-      mb_id: 'mania',
-      mb_nick: '홍길동',
-      mb_group: 'teacher',
-      mb_hp: '010-2278-1282',
-      mb_password: 'dizzy8000',
-      mb_photo: ''
-  );
-  get data => _user;
-
-  TestUser() {
-    notifyListeners();
-  }
-
-  setState(User user) {
-    _user = user;
-    notifyListeners();
-  }
-
-  change(User user) {
-    _user = user;
-  }
-
-}
 
 class CurrentUser extends ChangeNotifier {
   User _currentUser = User(
@@ -46,7 +21,7 @@ class CurrentUser extends ChangeNotifier {
     fetch();
   }
 
-  void fetch() async {
+  fetch() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     if(pref.containsKey('userInfo')) {

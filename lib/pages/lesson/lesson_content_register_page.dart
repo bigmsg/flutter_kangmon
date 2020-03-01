@@ -22,10 +22,7 @@ class LessonContentRegisterPage extends StatelessWidget {
                 children: <Widget>[
                   TextField(
                     controller: _subjectController,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
+
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "제목"
@@ -37,10 +34,6 @@ class LessonContentRegisterPage extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     minLines: 3,
                     maxLines: null,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "내용"
@@ -50,10 +43,6 @@ class LessonContentRegisterPage extends StatelessWidget {
 
                   TextField(
                     controller: _localController,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "지역"
@@ -64,10 +53,6 @@ class LessonContentRegisterPage extends StatelessWidget {
                   TextField(
                     controller: _priceController,
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "금액"

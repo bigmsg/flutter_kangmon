@@ -31,7 +31,7 @@ class MyRequests {
     return res;
   }
 
-  get(String url, Map<String, dynamic> body) async {
+  get(String url) async {
     await setCookies();
 
     var res = await Requests.get(url);

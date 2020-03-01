@@ -27,39 +27,11 @@ class LessonListPage extends StatefulWidget {
 
 class _LessonListState extends State<LessonListPage> {
 
-  Future<String> getData() async {
-    /*Future<String> response = await http.get(
-      Uri.encodeFull('https://'),
-      headers: {'Accept': 'application/json'}
-    );*/
-    //var response = await http.get('https://www.massagemania.co.kr/_mobileapp/admin/test.php', body: {});
-    /*var response = await http.post('https://www.massagemania.co.kr/_mobileapp/admin/test.php', body: {'mb_id': 'mania'});
-    print(response.body);
-
-
-     */
-    var response = await http.post('https://www.massagemania.co.kr/_mobileapp/admin/test.php',
-        body: {'mb_id': 'mania'}).then(
-            (http.Response response) {
-          final int statusCode = response.statusCode;
-          if (statusCode < 200 || statusCode > 400 || json == null) {
-            throw new Exception("Error while fetching data");
-          }
-          print(response.body);
-          //return json.decode(response.body);
-        });
-    print(response);
-    return '00';
-  }
-
-  /*Future getData() async {
-
-  }*/
 
   @override
   initState() {
     super.initState();
-    this.getData();
+    //this.getData();
     initialApp();
   }
 
@@ -68,13 +40,12 @@ class _LessonListState extends State<LessonListPage> {
 
     var currentUser = Provider.of<CurrentUser>(context);
 
-
     return Scaffold(
       appBar: AppBar(
 
         //centerTitle: true,
-        title: Text('미용코칭몬', style: TextStyle(
-            fontSize: 13.0
+        title: Text('미코', style: TextStyle(
+            fontSize: 20.0
         ),),
 
         flexibleSpace: FlexibleSpaceBar(title: Text(''),),
@@ -96,7 +67,7 @@ class _LessonListState extends State<LessonListPage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => TeacherProfileRegisterPage())),
           ),
-          currentUser.data.mb_id == '' ? _buildLogin(context) : _buildLogout(context),
+          currentUser.data.mb_id == '' ? _buildLogin(context) : _buildLogout(context, currentUser),
 
         ],
       ),
@@ -197,9 +168,10 @@ class _LessonListState extends State<LessonListPage> {
     //CircularProgressIndicator();
   }
 
-  _buildLogout(BuildContext context) {
+  _buildLogout(BuildContext context, CurrentUser currentUser) {
+
     return FlatButton(
-      child: Text('Logout',),
+      child: Text('${currentUser.data.mb_nick} 님(logout)',),
       onPressed: () {
         logout(context);
       },

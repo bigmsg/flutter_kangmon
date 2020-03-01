@@ -95,6 +95,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
+
             Container(
               height: 120.0, width: 180.0,
               decoration: BoxDecoration(
@@ -103,6 +104,15 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
                       fit: BoxFit.cover
                   ),
                   borderRadius: BorderRadius.circular(10.0)
+              ),
+            ),
+
+            Container(
+              height: 121.0,
+              width: 181.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(width: 0.5, color: Colors.grey),
               ),
             ),
 

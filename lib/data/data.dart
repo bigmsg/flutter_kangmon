@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/help/my_requests.dart';
+import 'package:flutter_kangmon/models/board_bloc.dart';
+import 'package:flutter_kangmon/models/comment_bloc.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -266,6 +268,7 @@ final List<Lesson> lessons = [
 
 //final currentUserBloc = CurrentUserBloc();
 final lessonPhotosBloc = LessonPhotoBloc();
-
+final boardBloc = BoardBloc();
+final commentsBloc = CommentsBloc();
 
 final request = MyRequests();

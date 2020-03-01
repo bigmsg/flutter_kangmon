@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_kangmon/models/app_state_provider.dart';
+import 'package:flutter_kangmon/models/comment_bloc.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/admin/admin_home.dart';
 import 'package:flutter_kangmon/pages/home_page.dart';
@@ -13,7 +14,6 @@ import 'data/style.dart';
 import 'models/lesson_photos_provider.dart';
 import 'models/providers.dart';
 
-//final lessonPhotos = LessonPhotos();
 
 //void main() => runApp(MyApp());
 void main() async {
@@ -35,6 +35,9 @@ void main() async {
         ChangeNotifierProvider.value(value: LessonPhotos(),),
         ChangeNotifierProvider.value(value: CurrentUser(),),
         ChangeNotifierProvider.value(value: AppStateProvider(),),
+        //ChangeNotifierProvider.value(value: BoardProvider(),),
+        //ChangeNotifierProvider.value(value: CommentProvider(),),
+        //ChangeNotifierProvider<CommentProvider>(create: (_) => CommentProvider(),),
         //ChangeNotifierProvider(create: (_) => LessonPhotos()),
         //ChangeNotifierProvider.value(value: TestUser(),),
       ],
