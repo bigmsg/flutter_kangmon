@@ -30,26 +30,7 @@ Future getShared(String name) async {
   return item;
 }
 
-
-/*
-Future setUserInfo(Map<String, String> userInfo) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  pref.setString('mb_id', userInfo['mb_id']);
-  pref.setString('mb_password', userInfo['mb_password']);
-  pref.setString('mb_group', userInfo['mb_group']);
-  pref.setString('mb_nick', userInfo['mb_nick']);
-  pref.setString('mb_hp', userInfo['mb_hp']);
-  pref.setString('mb_photo', userInfo['mb_photo']);
-  pref.setString('session_key', userInfo['session_key']);
-  pref.setString('session_id', userInfo['session_id']);
-
-  /*currentUser.mb_id = userInfo['mb_id'];
-  currentUser.mb_nick = userInfo['mb_nick'];
-  currentUser.mb_hp = userInfo['mb_hp'];*/
-  //currentUserBloc.fetch();
-}*/
-
-
+// 로그아웃
 void logout(BuildContext context) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   var res = await Requests.get(logoutUrl);

@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
     print(cookies1['PHPSESSID']);
 
     var params = {
-      //'device_id': app.device.deviceId,
+      'device_id': app.device.deviceId,
       'mb_id': idController.text,
       'mb_password': passwordController.text,
       //'session_key': user.data.session_key,
@@ -273,11 +273,15 @@ class _LoginPageState extends State<LoginPage> {
     };
 
     var cookies = {
-      'device_id': app.device.deviceId,
       'PHPSESSID' : jsdata['PHPSESSID'],
+
+      'key_device_id': jsdata['key_device_id'],
+      'val_device_id': jsdata['val_device_id'],
+
       'key_ck_mb_id': jsdata['key_ck_mb_id'],
-      'key_ck_auto': jsdata['key_ck_auto'],
       'val_ck_mb_id': jsdata['val_ck_mb_id'],
+
+      'key_ck_auto': jsdata['key_ck_auto'],
       'val_ck_auto': jsdata['val_ck_auto'],
     };
 
@@ -317,11 +321,13 @@ class _LoginPageState extends State<LoginPage> {
       'mb_password': user.data.mb_password
     };
     String hostname = Requests.getHostname(loginUrl);
-    //var res = await Requests.post(appUrl + '/chk_login.php', body: params);
-    var res = await request.post(appUrl + '/chk_login.php', body: params);
-    await request.setCookies();
     var cookies = await Requests.getStoredCookies(hostname);
     print(cookies);
+
+
+    //var res = await Requests.post(appUrl + '/chk_login.php', body: params);
+    var res = await request.post(appUrl + '/chk_login.php', body: params);
+    //await request.setCookies();
     print('----- my request result ----------');
     print(res.content());
 

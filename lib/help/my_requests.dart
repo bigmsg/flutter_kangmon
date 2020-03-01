@@ -52,8 +52,9 @@ class MyRequests {
       if(cookies['key_ck_mb_id'] != '') {
       //await Requests.clearStoredCookies(hostname);
         await Requests.setStoredCookies(hostname, {
-          'device_id': cookies['device_id'],
+          //'device_id': cookies['device_id'],
           'PHPSESSID': cookies['PHPSESSID'],
+          cookies['key_device_id']: cookies['val_device_id'],
           cookies['key_ck_mb_id']: cookies['val_ck_mb_id'],
           cookies['key_ck_auto']: cookies['val_ck_auto'],
         });
