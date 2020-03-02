@@ -8,6 +8,7 @@ import 'package:flutter_kangmon/pages/bbs/bbs_list_page.dart';
 import 'package:flutter_kangmon/pages/member/login_page.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_list_page.dart';
+import 'package:flutter_kangmon/pages/teacher/my_lesson_list_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_home.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
 import 'package:provider/provider.dart';
@@ -66,26 +67,62 @@ class _HomePageState extends State<HomePage> {
             //color: Colors.grey,
             child: Container(
               //height: 65,
+              //color: Color.fromARGB(100, 24, 24, 24),
               child: TabBar(
+                //labelColor: Colors.white,
+                //indicatorSize: ,
                 //controller: ctr,
-                tabs: isAdmin ? _buildTabBar4(isSuper) : _buildTabBar3(),
+                //labelStyle: ,
+                /*labelStyle: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),*/
+                //labelColor: Colors.pink,
+
+                //unselectedLabelColor: Colors.black,
+                indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(width: 0.0),
+                    insets: EdgeInsets.symmetric(horizontal:16.0)
+                ),
+                //indicator: TabInd
+                onTap: (index) {
+                  print('--------- on tap $index --------');
+                  /*if (index == 1 ){
+                    if(isAdmin) {
+                      Navigator.pushNamed(context, '/AdminHome');
+                    }
+                    if(isSuper) {
+                      Navigator.pushNamed(context, '/AdminHome');
+                    }
+                  }*/
+                },
+                tabs: isAdmin ? _buildTabBar4(isSuper) : _buildTabBar3(currentUser),
               ),
 
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                boxShadow: [
+                //color: Theme.of(context).primaryColor,
+                color: Color.fromARGB(0, 24, 24, 24),
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.black12,
+                    width: 1,
+                  ),
+                ),
+                //color: Colors.pink,
+                /*boxShadow: [
                   BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0, -1),
-                      blurRadius: 6.0
+                      blurRadius: 2.0
                   )
-                ]
+                ]*/
               ),
             ),
           ),
           body: TabBarView(
             //controller: ctr,
-            children: isAdmin ? _buildPage4(isSuper) : _buildPage3(),
+            children: isAdmin ? _buildPage4(isSuper) : _buildPage3(currentUser),
           ),
         ),
       );
@@ -98,38 +135,42 @@ class _HomePageState extends State<HomePage> {
     return <Widget>[
       Tab(child: Text('레슨', style: TextStyle(
         fontSize: 12
+        ),),
+      ),
+
+      /*isSuper ? Tab(child: Text('영자방', style: TextStyle(
+          fontSize: 12
+      ),),)
+
+      : Tab(child: Text('강사', style: TextStyle(
+        fontSize: 12
       ),),),
 
-      isSuper ? Tab(child: FlatButton(
-        child: Text('영자방',),
-        onPressed: () {
+       */
+
+      isSuper ? Tab(child: GestureDetector(
+        child: Text('영자방',
+          style: TextStyle(
+              fontSize: 12
+          ),
+          strutStyle: StrutStyle(
+            fontSize: 10,
+            height: 1,
+            leading: 0,
+          ),),
+        onTap: () {
           //Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHome()));
           Navigator.pushNamed(context, '/AdminHome');
           //Navigator.push(context, '');
         },
       ),)
 
-      : Tab(child: FlatButton(
-        child: Text('강사'),
-        onPressed: () {
-          Navigator.pushNamed(context, '/TeacherHome');
-          //Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherHome()));
-        },
-      ),),
-
-      Tab(child: Text('게시판'),),
-      Tab(child: Text('MY'),),
-    ];
-
-  }
-
-  _buildTabBar3() {
-    return <Widget>[
-      Tab(child: Text('레슨', style: TextStyle(
-          fontSize: 12
-      ),),),
-      Tab(child: Text('게시판', style: TextStyle(
+      : Tab(child: Text('강사', style: TextStyle(
         fontSize: 12
+      ),),),
+
+      Tab(child: Text('Q&A', style: TextStyle(
+          fontSize: 12
       ),),),
       Tab(child: Text('MY', style: TextStyle(
           fontSize: 12
@@ -138,25 +179,41 @@ class _HomePageState extends State<HomePage> {
 
   }
 
+  _buildTabBar3(CurrentUser user) {
+    return <Widget>[
+      Tab(child: Text('레슨', style: TextStyle(
+          fontSize: 12
+      ),),),
+      Tab(child: Text('Q&A', style: TextStyle(
+        fontSize: 12
+      ),),),
+      user.data.mb_id == '' ?
+      Tab(child: Text('로그인', style: TextStyle(
+          fontSize: 12
+      ),),)
+      : Tab(child: Text('MY', style: TextStyle(
+          fontSize: 12
+      ),),),
+    ];
+  }
+
   _buildPage4(bool isSuper) {
     return <Widget>[
       LessonListPage(),
-      isSuper ? AdminHome() : TeacherHome(),
+      isSuper ? AdminHome() : MyLessonListPage(),
       BbsListPage(),
       MyPage(),
-
     ];
 
   }
 
-  _buildPage3() {
+  _buildPage3(CurrentUser user) {
     return <Widget>[
       LessonListPage(),
       BbsListPage(),
-      MyPage(),
-
+      user.data.mb_id == '' ? LoginPage(isPreviousTabView: true)
+      : MyPage(),
     ];
-
   }
 
 }

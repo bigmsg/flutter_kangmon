@@ -36,6 +36,9 @@ class MyRequests {
 
     var res = await Requests.get(url);
     return res;
+    /*Requests.get(url).then((response) {
+      return response;
+    });*/
   }
 
   setCookies() async {

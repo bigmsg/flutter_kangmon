@@ -44,7 +44,9 @@ class _BbsRegisterPageState extends State<BbsRegisterPage> {
           TextField(
             controller: _subjectController,
             decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+
+                ),
                 labelText: "제목"
             ),
           ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/help/common.dart';
+import 'package:flutter_kangmon/models/providers.dart';
+import 'package:provider/provider.dart';
 
 
 class MyPage extends StatefulWidget {
@@ -8,10 +11,18 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
 
-  var menus = ['로그인/회원가입', '정보수정', '강사등록', '레슨관리'];
+
 
   @override
   Widget build(BuildContext context) {
+
+    var currentUser = Provider.of<CurrentUser>(context);
+
+    var menus = ['정보수정', '로그아웃'];
+    if (currentUser.data.mb_group == '') {
+      menus.add('강사등록');
+    }
+
     return Scaffold(
       appBar: AppBar(
 
@@ -26,19 +37,40 @@ class _MyPageState extends State<MyPage> {
         child: ListView.separated(
           itemCount: menus.length,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(menus[index]),
-                  Icon(Icons.arrow_forward_ios,
-                    size: 14,
-                    color: Colors.white70,
+            if(menus[index] == '로그아웃') {
+              return Container(
+                padding: EdgeInsets.all(10),
+                child: InkWell(
+                  onTap: () {
+                    logout(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(menus[index]),
+                      Icon(Icons.arrow_forward_ios,
+                        size: 14,
+                        color: Colors.white70,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
+                ),
+              );
+            } else {
+              return Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(menus[index]),
+                    Icon(Icons.arrow_forward_ios,
+                      size: 14,
+                      color: Colors.white70,
+                    ),
+                  ],
+                ),
+              );
+            }
             },
           separatorBuilder: (BuildContext context, int index) {
             return Divider(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SigninPage extends StatefulWidget {
+  bool isPreviousTabView;
+
+  SigninPage({this.isPreviousTabView});
+
   @override
   _SigninPageState createState() => _SigninPageState();
 }

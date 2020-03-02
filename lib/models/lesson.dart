@@ -31,7 +31,7 @@ class Portfolio {
 }
 
 
-class Lesson {
+/*class Lesson {
   final User user;
   final Portfolio portfolio;
   final String subject;
@@ -42,6 +42,23 @@ class Lesson {
   final String category;
 
   Lesson({this.user, this.portfolio, this.subject, this.content, this.term, this.price, this.local, this.category });
+}*/
+
+class Lesson {
+  int wr_id;
+  String mb_id;
+  String mb_nick;
+  String wr_subject;
+  String wr_content;
+  String wr_datetime;
+  List<dynamic> wr_photos;
+  String wr_term;
+  int wr_price;
+  String wr_local;
+  String wr_category;
+
+  Lesson({this.wr_id, this.mb_id, this.mb_nick, this.wr_subject, this.wr_content, this.wr_datetime,
+    this.wr_photos,  this.wr_term, this.wr_price, this.wr_local, this.wr_category});
 }
 
 
@@ -52,9 +69,10 @@ class Post {
   String wr_subject;
   String wr_content;
   String wr_datetime;
+  String wr_photo;
   bool is_comment;
 
-  Post({this.wr_id, this.mb_id, this.mb_nick, this.wr_subject, this.wr_content, this.wr_datetime, this.is_comment});
+  Post({this.wr_id, this.mb_id, this.mb_nick, this.wr_subject, this.wr_content, this.wr_datetime, this.wr_photo, this.is_comment});
 }
 
 

@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
+import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/my_lessons_bloc.dart';
+import 'package:flutter_kangmon/models/registering_lesson_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class LessonContentRegisterPage extends StatelessWidget {
+
   TextEditingController _subjectController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   TextEditingController _localController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
+
+    var currentLesson = Provider.of<RegisteringLessonProvider>(context, listen: false);
+    if(currentLesson.data != null) {
+      print('local: ${currentLesson.data.wr_local}');
+      print('price: ${currentLesson.data.wr_price}');
+      print(currentLesson.data.wr_price);
+      _subjectController.text = currentLesson.data.wr_subject;
+      _contentController.text = currentLesson.data.wr_content;
+      _localController.text = currentLesson.data.wr_local;
+      _priceController.text = currentLesson.data.wr_price == 0 ? '': currentLesson.data.wr_price.toString();
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('레슨등록'),
-      ),
       body: ListView(
         children: <Widget>[
           Padding(
@@ -91,8 +107,25 @@ class LessonContentRegisterPage extends StatelessWidget {
     );
   }
 
-  void _onSubmit(context) {
-    print('저장하기 ');
+  _onSubmit(BuildContext context) async {
+    var currentLesson = Provider.of<RegisteringLessonProvider>(context, listen: false);
+
+    var params = {
+      'bo_table': 'mico_lesson',
+      'w': currentLesson.data == null ? '': 'u',
+      'wr_id': currentLesson.data == null ? '' : currentLesson.data.wr_id,
+      'wr_subject': _subjectController.text,
+      'wr_content': _contentController.text,
+      'wr_local': _localController.text,
+      'wr_price': _priceController.text,
+    };
+    var res = await request.post(lessonUpdateUrl, body: params);
+    print(res.content());
+
+    myLessonsBloc.fetch();
+    lessonsBloc.fetch();
+    Navigator.pop(context);
+
   }
 
   _buildBody() {

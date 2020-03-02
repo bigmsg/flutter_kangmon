@@ -43,5 +43,7 @@ void logout(BuildContext context) async {
     // 자동로그인 쿠키삭제
     String hostname = Requests.getHostname(logoutUrl);
     await Requests.clearStoredCookies(hostname);
+
+    myLessonsBloc.remove();
   }
 }

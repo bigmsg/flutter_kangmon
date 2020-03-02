@@ -17,20 +17,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
+  bool isPreviousTabView;
+
+  LoginPage({this.isPreviousTabView});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
 
+
+
   TextEditingController idController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+
 
   @override
   initState() {
     super.initState();
-    idController.text = 'gt';
-    passwordController.text = 'dizzy8036!@';
+    idController.text = 'bigmsg';
+    passwordController.text = '0000';
   }
 
   @override
@@ -60,17 +68,19 @@ class _LoginPageState extends State<LoginPage> {
           child: ListView(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 30.0,
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
+              widget.isPreviousTabView == null ?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      color: Colors.white,
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 30.0,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                )
+              : SizedBox(height: 0),
 
               // Logo
               Image(
@@ -109,109 +119,36 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               // 로그인
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width/3,
-                    height: 50,
-                    child: RaisedButton(
-                      child: Text(
-                        "강사로그인",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                      color: Colors.grey,
-                      onPressed: () {
-                        idController.text = 'bigmsg';
-                        passwordController.text = '0000';
-                        _onSubmit(context);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width/3,
-                    height: 50,
-                    child: RaisedButton(
-                      child: Text(
-                        "로그인",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                      color: Colors.yellow,
-                      onPressed: () {
-                        _onSubmit(context);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-
               SizedBox(
                 width: MediaQuery.of(context).size.width/3,
                 height: 50,
                 child: RaisedButton(
                   child: Text(
-                    "로그아웃",
+                    "로그인",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 16,
                     ),
                   ),
-                  color: Colors.grey,
+                  color: Colors.yellow,
                   onPressed: () {
-                    logout(context);
+                    _onSubmit(context);
                   },
                 ),
               ),
               SizedBox(height: 20,),
 
-              SizedBox(
-                width: MediaQuery.of(context).size.width/3,
-                height: 50,
-                child: RaisedButton(
-                  child: Text(
-                    "로그인 체크",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  color: Colors.green,
-                  onPressed: () {
-                    loginCheck(context);
-                  },
-                ),
-              ),
-              SizedBox(height: 20,),
 
-              SizedBox(
-                width: MediaQuery.of(context).size.width/3,
-                height: 50,
-                child: RaisedButton(
-                  child: Text(
-                    "게시글 불러오기",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  color: Colors.green,
-                  onPressed: () {
 
-                  },
-                ),
-              ),
+
 
               FlatButton(
                 child: Text("아직 회원이 아니신가요? 회원가입"),
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SigninPage()));
+                  if(widget.isPreviousTabView == null)
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SigninPage()));
+                  else
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => SigninPage()));
                 },
               ),
 
@@ -304,8 +241,14 @@ class _LoginPageState extends State<LoginPage> {
     pref.setString('userInfo', json.encode(userInfo));
     pref.setString('cookies', json.encode(cookies));
 
+    //myLessonsBloc.fetch();
+    //myLessonsBloc.remove();
+
     await Provider.of<CurrentUser>(context, listen: false).fetch();
-    Navigator.pop(context);
+    if(widget.isPreviousTabView == null)
+      Navigator.pop(context);
+    //else
+      //Navigator.pushReplacementNamed(context, '/');
 
 
 

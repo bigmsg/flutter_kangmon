@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_kangmon/models/app_state_provider.dart';
 import 'package:flutter_kangmon/models/comment_bloc.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/registering_lesson_provider.dart';
 import 'package:flutter_kangmon/pages/admin/admin_home.dart';
 import 'package:flutter_kangmon/pages/home_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_home.dart';
@@ -35,6 +36,7 @@ void main() async {
         ChangeNotifierProvider.value(value: LessonPhotos(),),
         ChangeNotifierProvider.value(value: CurrentUser(),),
         ChangeNotifierProvider.value(value: AppStateProvider(),),
+        ChangeNotifierProvider.value(value: RegisteringLessonProvider(),),
         //ChangeNotifierProvider.value(value: BoardProvider(),),
         //ChangeNotifierProvider.value(value: CommentProvider(),),
         //ChangeNotifierProvider<CommentProvider>(create: (_) => CommentProvider(),),

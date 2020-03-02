@@ -98,13 +98,15 @@ class _BbsListPageState extends State<BbsListPage> {
   }
 
   _buildPost(BuildContext context, Post post) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         this.count++;
         Navigator.push(context, MaterialPageRoute(builder: (_) => BbsDetailPage(post: post) ));
       },
-      child: Padding(
+
+      child: Container(
         padding: const EdgeInsets.all(20.0),
+        //color: Color.fromARGB(0, 255, 255, 255),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
