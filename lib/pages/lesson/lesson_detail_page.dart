@@ -55,8 +55,36 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                   ),
                 ],
               ),
-              Text(widget.lesson.wr_subject),
-              Text('${widget.lesson.wr_price}원'),
+              SizedBox(height: 20,),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(widget.lesson.wr_subject, textAlign: TextAlign.left,),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+
+                    Row(
+                      children: <Widget>[
+                        Text('지역: ${widget.lesson.wr_local}', textAlign: TextAlign.left,),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+
+                    Row(
+                      children: <Widget>[
+                        Text('금액: ${widget.lesson.wr_price}원', textAlign: TextAlign.left,),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+
             ],
           ),
         )

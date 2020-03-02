@@ -30,7 +30,7 @@ final bbsCommentListUrl = appUrl + '/${_bbsdir}/comment_list.php';
 final bbsCommentUpdateUrl = appUrl + '/${_bbsdir}/write_comment_update.php';
 
 
-final photoRegisterUrl = appUrl + '/upload_photo.php';
+final photoRegisterUrl = appUrl + '/jquery-file-upload/gnuboard.php';
 final getPhotosUrl = appUrl + '/get_photos.php';
 
 

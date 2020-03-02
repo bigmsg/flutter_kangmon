@@ -72,7 +72,10 @@ class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현
     );
 
     if (res.statusCode == 200) {
-      _image[index] = res.content();
+      //_image[index] = res.content();
+      print('------- upload result ------');
+      print(res.content());
+      _image[index] = '';
       notifyListeners();
       return '👍 업로드 성공';
     } else {

@@ -149,16 +149,34 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
 
   // 이미지 선택
   _pickImage(dynamic photos, int index) async {
-    print('call getImage()');
+    print('call _pickImage()');
     var file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    final photos = Provider.of<LessonPhotos>(context, listen: false);
+
+    String base64Image = base64Encode(file.readAsBytesSync());
+    String fileName = file.path.split("/").last;
+
+    var params = {
+      "image": base64Image,
+      "name": fileName,
+    };
 
     // 서버에 즉시 저장하기
     print('start upload');
-    if(file == null) return;
+    print('upload url: ${photoRegisterUrl}?wr_id=${photos.wr_id}');
+    /*if(file == null) return;
     else {
-      String msg = await photos.upload(file, index);
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
-    }
+      //String msg = await photos.upload(file, index);
+
+      var res = await request.post(
+        photoRegisterUrl+'?wr_id=${photos.wr_id}',
+        body: params,
+      );
+      print('------- result -------');
+      print(res.content());
+      //Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    }*/
   }
 
 
@@ -168,6 +186,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
   _removeImage(dynamic photos, int index) {
     //1. 서버삭제
 
+    print('removeImage ');
     //2. provider 삭제
     photos.remove(index);
   }
