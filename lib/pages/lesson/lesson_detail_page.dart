@@ -29,7 +29,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                       height: 200.0,
                       width: MediaQuery.of(context).size.width,
                       //image: AssetImage(widget.lesson.wr_photos[1]),
-                      image: widget.lesson.wr_photos.length > 0 ? NetworkImage(widget.lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
+                      image: (widget.lesson.wr_photos.length > 0 && widget.lesson.wr_photos[0] != null) ? NetworkImage(widget.lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
                       fit: BoxFit.cover,
                     ),
                   //),

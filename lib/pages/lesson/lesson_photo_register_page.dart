@@ -7,8 +7,12 @@ import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
 import 'package:flutter_kangmon/models/providers.dart';
 import 'package:flutter_kangmon/models/registering_lesson_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:requests/requests.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class LessonPhotoRegisterPage extends StatefulWidget {
@@ -44,7 +48,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
   // 이미지 배치하기
   _buildPhoto(dynamic photos, int index) {
 
-    if (photos.image[index] == null || photos.image[index] == 0) { //0: 업로드중
+    if (photos.image[index] == null || photos.image[index] == 0 || photos.image[index] == '') { //0: 업로드중
       return Center(
         child: Stack(
           alignment: Alignment.center,
@@ -150,6 +154,7 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
   // 이미지 선택
   _pickImage(dynamic photos, int index) async {
     print('call _pickImage()');
+    print('index: ${index}');
     var file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     final photos = Provider.of<LessonPhotos>(context, listen: false);
@@ -158,27 +163,34 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
     String fileName = file.path.split("/").last;
 
     var params = {
-      "image": base64Image,
-      "name": fileName,
+      'table': 'mico_lesson',// jquery-file-upload에서는  table로 쥐야 함, 아니면 이상하게 에러발생함
+      'mb_id': 'bigmsg',
+      //'wr_id': photos.wr_id.toString(),
+      'wr_id': '2',
+      'bf_no': index.toString(),
     };
 
     // 서버에 즉시 저장하기
     print('start upload');
     print('upload url: ${photoRegisterUrl}?wr_id=${photos.wr_id}');
-    /*if(file == null) return;
+    if(file == null) return;
     else {
-      //String msg = await photos.upload(file, index);
+      photos.upload(file, index, params).then((result) {
+        if(result['result']) {
+          lessonsBloc.fetch();
+        }
 
-      var res = await request.post(
-        photoRegisterUrl+'?wr_id=${photos.wr_id}',
-        body: params,
-      );
-      print('------- result -------');
-      print(res.content());
-      //Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
-    }*/
+        print('-------- rst upload --------');
+        print(result);
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('${result['message']}')));
+
+      });
+
+    }
+
+
+
   }
-
 
 
 
@@ -188,7 +200,15 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
 
     print('removeImage ');
     //2. provider 삭제
-    photos.remove(index);
+    photos.remove(index).then((result) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('${result}')));
+    });
   }
+
+}
+
+
+
+class Photo {
 
 }

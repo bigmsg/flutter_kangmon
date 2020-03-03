@@ -138,6 +138,7 @@ class _MyLessonListState extends State<MyLessonListPage> {
       ),
 
       body: Container(
+        padding: EdgeInsets.only(bottom: 50),
         child: StreamBuilder(
           stream: myLessonsBloc.data,
           builder: (context, snapshot) {
@@ -190,7 +191,7 @@ class _MyLessonListState extends State<MyLessonListPage> {
                       child:*/ Image(
                       width: 120.0,
                       height: 80.0,
-                      image: lesson.wr_photos.length > 0 ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
+                      image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
                       //image: AssetImage('assets/images/1-1.jpg'),
                       //image: AssetImage('assets/images/1.jpg'),
                       fit: BoxFit.cover,

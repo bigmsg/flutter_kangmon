@@ -99,6 +99,7 @@ class _LessonListState extends State<LessonListPage> {
           builder: (context, snapshot) {
             if(snapshot.hasData && snapshot.data.length > 0) {
               return ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   Lesson lesson = snapshot.data[index];
@@ -145,7 +146,7 @@ class _LessonListState extends State<LessonListPage> {
                     child:*/ Image(
                       width: 120.0,
                       height: 80.0,
-                      image: lesson.wr_photos.length > 0 ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
+                      image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
                       //image: AssetImage('assets/images/1-1.jpg'),
                       //image: AssetImage('assets/images/1.jpg'),
                       fit: BoxFit.cover,
