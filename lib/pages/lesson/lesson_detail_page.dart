@@ -17,6 +17,18 @@ class LessonDetailPage extends StatefulWidget {
 }
 
 class _LessonDetailPageState extends State<LessonDetailPage> {
+
+
+  PageController _controller = PageController(
+    initialPage: 0,
+  );
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Post post;
@@ -70,12 +82,28 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  Image(
+
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*4/7,
+                    child: PageView(
+                      controller: _controller,
+                      scrollDirection: Axis.horizontal,
+
+                      children: _buildPhotos(context, widget.lesson.wr_photos),
+
+
+
+                      //_buildPhotos(context, widget.lesson.wr_photos),
+                    ),
+                  ),
+
+                  /*Image(
                       height: MediaQuery.of(context).size.width*4/7,  // 7(375px):5(267px)
                       width: MediaQuery.of(context).size.width, // 375(iPhone6s)
                       image: (widget.lesson.wr_photos.length > 0 && widget.lesson.wr_photos[0] != null) ? NetworkImage(widget.lesson.wr_photos[0]) :  AssetImage('assets/images/no-image.jpg'),
                       fit: BoxFit.cover,
-                    ),
+                    ),*/
                   //),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -141,6 +169,25 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
         )
     );
   }
+
+  List<Widget> _buildPhotos(BuildContext context, List<String> photos) {
+    List<Widget> result = [];
+    for(var i=0; i < photos.length; i++){
+      print('i: ${photos[i]}');
+        if(i >=0 && photos[i] != null) {
+          result.add(Image(
+              height: MediaQuery.of(context).size.width*4/7,
+              width: MediaQuery.of(context).size.width,
+              image: NetworkImage(photos[i]),
+            fit: BoxFit.cover,
+          ));
+        }
+    }
+
+    return  result;
+  }
+
+
 
   _onChatPage(BuildContext context) async {
     var currentUser = Provider.of<CurrentUser>(context, listen: false);

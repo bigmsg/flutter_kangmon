@@ -64,7 +64,7 @@ class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현
     }
 
     body['wr_id'] = _wr_id.toString();
-    _image[index] = 0;
+    _image[index] = '';
     notifyListeners();
 
     print('------- _wr_id: ${_wr_id} ------------');

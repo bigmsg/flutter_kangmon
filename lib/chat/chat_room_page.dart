@@ -140,6 +140,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     // 5초마다 업데이트 하기
     timer = Timer.periodic(Duration(milliseconds: 5000), (_) => _refresh());
 
+    final double statusbarHeight = MediaQuery
+        .of(context)
+        .padding
+        .top;
+    print('-------------- statusbar height --------');
+    print(statusbarHeight);
+
     return Scaffold(
       appBar: AppBar(
         title: widget.lesson != null ? Text('레슨명: ${widget.lesson.wr_subject}') : Text('챗방'),
