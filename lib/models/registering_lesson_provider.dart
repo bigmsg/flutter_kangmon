@@ -22,7 +22,12 @@ class RegisteringLessonProvider with ChangeNotifier { // with: implement 의 선
   RegisteringLessonProvider({this.lesson});
 
   fetch(Lesson les) {
+    print('------ fetch ------');
+    print(les);
+    print(les.wr_subject);
+    print(les.wr_content);
     lesson = les;
+    print(lesson.wr_price);
     notifyListeners();
   }
 

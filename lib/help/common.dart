@@ -15,12 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 Future initialApp() async {
-  //SharedPreferences.setMockInitialValues({});
-  SharedPreferences pref = await SharedPreferences.getInstance();
-
   print('--------- initial App  --------------');
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
 }
 
 
@@ -49,90 +44,28 @@ void logout(BuildContext context) async {
   }
 }
 
+/*
+  json객체 --> Lesson
+ */
+Lesson jsonToLesson(Map<String, dynamic> item) {
+  //print('--------- converting json to lesson ----------');
+  //print(item);
+  List<String> photos = [];
+  item['wr_photos'].forEach((val) {
+    photos.add(val);
+  });
 
-
-class NetworkService {
-
-  final JsonDecoder _decoder = new JsonDecoder();
-  final JsonEncoder _encoder = new JsonEncoder();
-
-  Map<String, String> headers = {"content-type": "text/json"};
-  Map<String, String> cookies = {};
-
-  void _updateCookie(http.Response response) {
-    String allSetCookie = response.headers['set-cookie'];
-
-    if (allSetCookie != null) {
-
-      var setCookies = allSetCookie.split(',');
-
-      for (var setCookie in setCookies) {
-        var cookies = setCookie.split(';');
-
-        for (var cookie in cookies) {
-          _setCookie(cookie);
-        }
-      }
-
-      headers['cookie'] = _generateCookieHeader();
-    }
-  }
-
-  void _setCookie(String rawCookie) {
-    if (rawCookie.length > 0) {
-      var keyValue = rawCookie.split('=');
-      if (keyValue.length == 2) {
-        var key = keyValue[0].trim();
-        var value = keyValue[1];
-
-        // ignore keys that aren't cookies
-        if (key == 'path' || key == 'expires')
-          return;
-
-        this.cookies[key] = value;
-      }
-    }
-  }
-
-  String _generateCookieHeader() {
-    String cookie = "";
-
-    for (var key in cookies.keys) {
-      if (cookie.length > 0)
-        cookie += ";";
-      cookie += key + "=" + cookies[key];
-    }
-
-    return cookie;
-  }
-
-  Future<dynamic> get(String url) {
-    return http.get(url, headers: headers).then((http.Response response) {
-      final String res = response.body;
-      final int statusCode = response.statusCode;
-
-      _updateCookie(response);
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return _decoder.convert(res);
-    });
-  }
-
-  Future<dynamic> post(String url, {body, encoding}) {
-    return http
-        .post(url, body: _encoder.convert(body), headers: headers, encoding: encoding)
-        .then((http.Response response) {
-      final String res = response.body;
-      final int statusCode = response.statusCode;
-
-      _updateCookie(response);
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return _decoder.convert(res);
-    });
-  }
+  return Lesson(
+    wr_id: item['wr_id'],
+    mb_id: item['mb_id'],
+    mb_nick: item['mb_nick'],
+    wr_subject: item['wr_subject'],
+    wr_content: item['wr_content'],
+    wr_datetime: item['wr_datetime'],
+    wr_photos: photos,
+    wr_term: item['wr_term'],
+    wr_price: item['wr_price'],
+    wr_local: item['wr_local'],
+    wr_category: item['wr_category'],
+  );
 }

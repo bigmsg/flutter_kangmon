@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
 import 'package:flutter_kangmon/data/data.dart';
+import 'package:dash_chat/dash_chat.dart';
 
 import '../member/login_page.dart';
 import 'lesson_detail_page.dart';
@@ -42,6 +43,10 @@ class _LessonListState extends State<LessonListPage> {
     var currentUser = Provider.of<CurrentUser>(context);
     //lessonsBloc.fetch('mico_lesson');
     //lessonsBloc.fetch('mico_lesson');
+    //myLessonsBloc.fetch();
+
+    // 화면전환시 새로운 데이터 갱신 필요
+    //lessonsBloc.fetch();
 
     return Scaffold(
       appBar: AppBar(
@@ -140,17 +145,30 @@ class _LessonListState extends State<LessonListPage> {
             Row(
               children: <Widget>[
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: /*Hero(
-                    tag: lesson.wr_photos.length > 0 ? lesson.wr_photos[0] : lesson.wr_id.toString(),
-                    child:*/ Image(
-                      width: 120.0,
-                      height: 80.0,
-                      image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
+                  borderRadius: BorderRadius.circular(3.0),
+                  /*child: Image(
+                      width: 140.0,
+                      height: 100.0,
+                      image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ?
+                          NetworkImage(lesson.wr_photos[0])
+                          :  AssetImage('assets/images/no-image.jpg'),
                       //image: AssetImage('assets/images/1-1.jpg'),
                       //image: AssetImage('assets/images/1.jpg'),
                       fit: BoxFit.cover,
-                    ),
+                    ),*/
+                  //FadeInImage.memoryNetwok(
+                  child: FadeInImage(
+                    width: 140.0,
+                    height: 100.0,
+                    fadeInDuration: Duration(milliseconds: 100),
+                    image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ?
+                    NetworkImage(lesson.wr_photos[0])
+                        :  AssetImage('assets/images/no-image.jpg'),
+                    //image: AssetImage('assets/images/1-1.jpg'),
+                    //image: AssetImage('assets/images/1.jpg'),
+                    placeholder: AssetImage('assets/images/no-image.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                   //),
                 ),
 

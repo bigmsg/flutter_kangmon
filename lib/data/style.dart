@@ -45,6 +45,9 @@ final darkTheme = ThemeData(
   accentIconTheme: IconThemeData(color: Colors.black),
   dividerColor: Colors.black54,
   buttonColor: Color.fromRGBO(50, 50, 50, 1), // 사진등록버튼
+  buttonTheme: ButtonThemeData(
+
+  ),
   textTheme: TextTheme(
     headline: TextStyle(
       fontSize: 10,
@@ -64,7 +67,8 @@ final darkTheme = ThemeData(
     ),
 
     body1: TextStyle( // 목록, 대부분의 글짜 크기
-        fontSize: 14
+        //fontSize: 12,
+        fontSize: 12,
     ),
 
     body2: TextStyle(

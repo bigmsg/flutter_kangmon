@@ -18,8 +18,7 @@ class CommentsBloc {
     //var res = await request.get(bbsListUrl+'?bo_table=${bo_table}&wr_id=${wr_id}');
     Requests.get(bbsListUrl+'?bo_table=${bo_table}&wr_id=${wr_id}').then((res){
       List<Post> comments = [];
-      print('-------- CommentsBloc fetch -------------');
-      print(res.content());
+
       var js = res.json();
 
       js.forEach((item) {

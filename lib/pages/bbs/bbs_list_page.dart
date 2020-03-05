@@ -26,6 +26,7 @@ class _BbsListPageState extends State<BbsListPage> {
     //var board = Provider.of<BoardProvider>(context);
     var count = 0;
 
+    // 화면전환시 새로운 데이터 갱신 필요
     boardBloc.fetch('mico_qna');
 
 

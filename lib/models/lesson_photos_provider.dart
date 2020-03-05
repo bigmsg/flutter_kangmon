@@ -30,6 +30,11 @@ class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현
     notifyListeners();
   }
 
+  void set(int wr_id) {
+    _wr_id = wr_id;
+    notifyListeners();
+  }
+
   void get(int wr_id) async {
     //var res = await http.get(getPhotosUrl+ "?wr_id=${wr_id}");
     var res = await http.get(getPhotosUrl);
@@ -123,9 +128,9 @@ class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현
   }
 
   // 데이터 삭제
-  Future<String> remove(int index) async  {
+  Future<Map<String, dynamic>> remove(int index) async  {
     print(_image[index]);
-    var fileName = _image[index].toString().replaceAll('https://www.kbschool.co.kr:443/data/file/mico_lesson/', '');
+    var fileName = _image[index].toString().replaceAll('https://www.kbschool.co.kr:443/data/file/mico_lesson/thumbnail/', '');
     print(fileName);
 
     var url = 'https://www.kbschool.co.kr/_mobileapp/kangmon/jquery-file-upload/gnuboard.php';
@@ -149,9 +154,16 @@ class LessonPhotos with ChangeNotifier { // with: implement 의 선택적 구현
     if(js[fileName]) {
       _image[index] = null;
       notifyListeners();
-      return '${index + 1}번째 이미지가 삭제되었습니다.';
+      return {
+        'result': true,
+        'message':'${index + 1}번째 이미지가 삭제되었습니다.'
+      };
     } else {
-      return '삭제 실패(알수 없는 이유)';
+      return {
+        'result': false,
+        'message':'❌ 삭제 실패(알수 없는 이유)'
+      };
+
     }
 
   }

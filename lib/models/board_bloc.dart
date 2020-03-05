@@ -17,8 +17,6 @@ class BoardBloc {
     //var res = await request.get(bbsListUrl+'?bo_table=${bo_table}');
     Requests.get(bbsListUrl+'?bo_table=${bo_table}').then((res) {
       List<Post> comments = [];
-      print('-------- PostsBloc fetch -------------');
-      print(res.content());
       var js = res.json();
 
       js.forEach((item) {

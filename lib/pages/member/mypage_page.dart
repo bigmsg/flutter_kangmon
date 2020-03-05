@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
 import 'package:flutter_kangmon/models/providers.dart';
 import 'package:provider/provider.dart';
@@ -59,15 +60,22 @@ class _MyPageState extends State<MyPage> {
             } else {
               return Container(
                 padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(menus[index]),
-                    Icon(Icons.arrow_forward_ios,
-                      size: 14,
-                      color: Colors.white70,
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: () async {
+                    var res = await request.get(chkAutologinUrl);
+                    print(res.content());
+
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(menus[index]),
+                      Icon(Icons.arrow_forward_ios,
+                        size: 14,
+                        color: Colors.white70,
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

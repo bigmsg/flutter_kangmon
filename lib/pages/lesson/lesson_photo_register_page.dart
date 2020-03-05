@@ -16,11 +16,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LessonPhotoRegisterPage extends StatefulWidget {
+
   @override
   _LessonPhotoRegisterPageState createState() => _LessonPhotoRegisterPageState();
 }
 
 class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -159,9 +161,6 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
 
     final photos = Provider.of<LessonPhotos>(context, listen: false);
 
-    String base64Image = base64Encode(file.readAsBytesSync());
-    String fileName = file.path.split("/").last;
-
     var params = {
       'table': 'mico_lesson',// jquery-file-upload에서는  table로 쥐야 함, 아니면 이상하게 에러발생함
       'mb_id': 'bigmsg',
@@ -182,7 +181,9 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
 
         print('-------- rst upload --------');
         print(result);
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text('${result['message']}')));
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text('${result['message']}'),
+            duration: Duration(milliseconds: result['result'] ? 500 : 4000),));
 
       });
 
@@ -201,7 +202,9 @@ class _LessonPhotoRegisterPageState extends State<LessonPhotoRegisterPage> {
     print('removeImage ');
     //2. provider 삭제
     photos.remove(index).then((result) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('${result}')));
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('${result['message']}'),
+          duration: Duration(milliseconds: result['result'] ? 500 : 4000),));
     });
   }
 

@@ -30,20 +30,6 @@ class Portfolio {
   Portfolio({this.user, this.career, this.imgUrl});
 }
 
-
-/*class Lesson {
-  final User user;
-  final Portfolio portfolio;
-  final String subject;
-  final String content;
-  final int term;
-  final int price;
-  final String local;
-  final String category;
-
-  Lesson({this.user, this.portfolio, this.subject, this.content, this.term, this.price, this.local, this.category });
-}*/
-
 class Lesson {
   int wr_id;
   String mb_id;

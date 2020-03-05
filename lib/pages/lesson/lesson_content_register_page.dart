@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/data/data.dart';
+import 'package:flutter_kangmon/help/common.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
+import 'package:flutter_kangmon/models/lesson_photos_provider.dart';
 import 'package:flutter_kangmon/models/my_lessons_bloc.dart';
 import 'package:flutter_kangmon/models/registering_lesson_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_kangmon/data/globals.dart' as globals;
 
 
 class LessonContentRegisterPage extends StatelessWidget {
@@ -79,7 +82,19 @@ class LessonContentRegisterPage extends StatelessWidget {
                     }
                   ),
                   SizedBox(height: 10,),
-
+                  TextField(
+                      controller: _priceController,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "연락처(휴대폰 or 카톡아이디)"
+                      ),
+                      onChanged: (text) {
+                        print(text);
+                        //_priceController.text = 'W' + text;
+                      }
+                  ),
+                  SizedBox(height: 10,),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -122,30 +137,38 @@ class LessonContentRegisterPage extends StatelessWidget {
     var res = await request.post(lessonUpdateUrl, body: params);
     print(res.content());
 
+    String message = currentLesson.data == null ? '👍 등록되었습니다.' : '👍 수정되었습니다.';
+
+    if(currentLesson.data == null){
+      currentLesson.fetch(jsonToLesson(res.json()));
+
+      if(currentLesson.data != null) {
+        var lessonPhotos = Provider.of<LessonPhotos>(context, listen: false);
+        lessonPhotos.set(currentLesson.data.wr_id);
+
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(message),
+              duration: Duration(milliseconds: 1000),));
+        await Future.delayed(Duration(milliseconds: 1000));
+
+        globals.registerLessonTabController.animateTo(1);
+
+      } else {
+        message = '❌ 네트워크 오류가 발생하였습니다.';
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(message),
+              duration: Duration(milliseconds: 1000),));
+      }
+
+
+    } else {
+      //Navigator.pop(context);
+    }
     myLessonsBloc.fetch();
     lessonsBloc.fetch();
-    Navigator.pop(context);
 
   }
 
-  _buildBody() {
-    //return Text('hello');
-
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          title: Text('리스트뷰 레슨등록 '),
-          floating: true,
-          //flexibleSpace: Placeholder(),
-          //expandedHeight: 20,
-        ),
-        //Text('hello'),
-        /*SliverList(
-          delegate: ,
-        )*/
-      ],
-    );
-  }
 
 
 }

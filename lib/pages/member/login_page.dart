@@ -271,7 +271,8 @@ class _LoginPageState extends State<LoginPage> {
     //await request.setCookies();
     print('----- my request result ----------');
     print(res.content());
-
+    myLessonsBloc.fetch();
+    lessonsBloc.fetch();
 
   }
 }

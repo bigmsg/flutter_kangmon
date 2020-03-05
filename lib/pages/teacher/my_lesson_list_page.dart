@@ -11,6 +11,7 @@ import 'package:flutter_kangmon/pages/lesson/lesson_content_register_page.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_detail_page.dart';
 import 'package:flutter_kangmon/pages/lesson/lesson_register_page.dart';
 import 'package:flutter_kangmon/pages/teacher/teacher_profile_register_page.dart';
+import 'package:flutter_kangmon/widgets/alert_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,10 +49,8 @@ class _MyLessonListState extends State<MyLessonListPage> {
     //lessonsBloc.fetch('mico_lesson');
    //lessonsBloc.fetch('mico_lesson');
     //var myLessonsBloc = MyLessonsBloc();
-    myLessonsBloc.data.last.then((data) {
-      print('-------- myLesson block data --------');
-      print(data);
-    });
+
+    //myLessonsBloc.fetch();
 
     return Scaffold(
       appBar: AppBar(
@@ -104,7 +103,7 @@ class _MyLessonListState extends State<MyLessonListPage> {
             ]
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: <Widget>[
               StreamBuilder<Object>(
@@ -113,20 +112,38 @@ class _MyLessonListState extends State<MyLessonListPage> {
 
                   // snapshot.data.length 를 쓰지 못함, 아래소스에서는 사용가능한데... 반복사용하면 한쪽은 안되나?
                   if(snapshot.hasData) {
-                    print('------ snapshot data -------');
-                    print(snapshot.data);
-                    return InkWell(
-                      child: Text('👉 레슨등록',
-                          style: TextStyle(
-                            color:Colors.grey,
-                          )),
-                      onTap: () {
-                        currentLesson.remove();
-                        photoProvider.initial();
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => LessonRegisterPage()));
-                        //Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: widget.post, w: 'c')));
-                      },
-                    );
+                    //print('${snapshot.data.length}');
+                    List myLessons = snapshot.data;
+                    //print('------ snapshot data -------');
+                    //print(snapshot.data);
+                    if(myLessons.length >= 200) {
+                      return FlatButton(
+                        child: Text('👉  레슨등록',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14
+                            )),
+                        onPressed: () {
+                          showAlertDialog(context, '레슨등록불가', '레슨은 2개까지만 등록가능합니다.');
+                        },
+                      );
+                    } else {
+                      return FlatButton(
+                        child: Text('👉  레슨등록',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14
+                            )),
+                        onPressed: () {
+                          currentLesson.remove();
+                          photoProvider.initial();
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (_) =>
+                                  LessonRegisterPage(tabIndex: 0,)));
+                          //Navigator.push(context, MaterialPageRoute(builder: (_) => BbsCommentRegisterPage(post: widget.post, w: 'c')));
+                        },
+                      );
+                    }
                   } else {
                     return Text('euoe');
                   }
@@ -177,129 +194,168 @@ class _MyLessonListState extends State<MyLessonListPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       //color: Color.fromARGB(0, 255, 255, 255),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: /*Hero(
-                      tag: lesson.wr_photos.length > 0 ? lesson.wr_photos[0] : lesson.wr_id.toString(),
-                      child:*/ Image(
-                      width: 120.0,
-                      height: 80.0,
-                      image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/1-1.jpg'),
-                      //image: AssetImage('assets/images/1-1.jpg'),
-                      //image: AssetImage('assets/images/1.jpg'),
-                      fit: BoxFit.cover,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => LessonDetailPage(lesson: lesson))
+          );
+        },
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      /*child: Image(
+                        width: 120.0,
+                        height: 80.0,
+                        image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ? NetworkImage(lesson.wr_photos[0]) :  AssetImage('assets/images/no-image.jpg'),
+                        //image: AssetImage('assets/images/1-1.jpg'),
+                        //image: AssetImage('assets/images/1.jpg'),
+                        fit: BoxFit.cover,
+                      ),*/
+                      child: FadeInImage(
+                        width: 140.0,
+                        height: 100.0,
+                        fadeInDuration: Duration(milliseconds: 100),
+                        image: (lesson.wr_photos.length > 0 && lesson.wr_photos[0] != null) ?
+                        NetworkImage(lesson.wr_photos[0])
+                            :  AssetImage('assets/images/no-image.jpg'),
+                        //image: AssetImage('assets/images/1-1.jpg'),
+                        //image: AssetImage('assets/images/1.jpg'),
+                        placeholder: AssetImage('assets/images/no-image.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                      //),
                     ),
-                    //),
-                  ),
 
-                  SizedBox(width: 10.0),
-                  Container(
-                    //margin: EdgeInsets.all(10.0),
-                    //padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(lesson.wr_subject, style:
-                        TextStyle(
-                            fontWeight: FontWeight.w600
-                        ),),
-                        Text('지역: ${lesson.wr_local == '' ? '-' : lesson.wr_local}'),
-                        Text('금액: ${lesson.wr_price}'),
-                      ],
+                    SizedBox(width: 10.0),
+                    Container(
+                      //margin: EdgeInsets.all(10.0),
+                      //padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(lesson.wr_subject, style:
+                          TextStyle(
+                              fontWeight: FontWeight.w600
+                          ),),
+                          Text('지역: ${lesson.wr_local == '' ? '-' : lesson.wr_local}'),
+                          Text('금액: ${lesson.wr_price}'),
+                        ],
+                      ),
                     ),
-                  ),
 
-                ],
-              ),
-
-              //Image.network('http://www.massagemania.co.kr/data/file/gooin/237413926_WfK3t6Ew_0333f3c1fc1a637708742af47c1edc3566074dce.jpg', width: 100.0, height: 100.0),
-              /*Container(
-                margin: EdgeInsets.all(10.0),
-                child: Text('hello'),
-              ),*/
-
-
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 14,
-                color: Colors.white70,
-              ),
-
-            ],
-          ),
-          SizedBox(height: 30,),
-
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 70,
-                height: 30,
-                child: RaisedButton(
-                  child: Text(
-                    "점프",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                  color: Colors.blueGrey,
-                  onPressed: (){},
+                  ],
                 ),
-              ),
-              SizedBox(width: 30,),
 
-              SizedBox(
-                width: 70,
-                height: 30,
-                child: RaisedButton(
-                  child: Text(
-                    "보기",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                  color: Theme.of(context).buttonColor,
-                  onPressed: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => LessonDetailPage(lesson: lesson))
-                    );
-                  },
+                //Image.network('http://www.massagemania.co.kr/data/file/gooin/237413926_WfK3t6Ew_0333f3c1fc1a637708742af47c1edc3566074dce.jpg', width: 100.0, height: 100.0),
+                /*Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text('hello'),
+                ),*/
+
+
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: Colors.white70,
                 ),
-              ),
-              SizedBox(width: 10,),
-              SizedBox(
-                width: 70,
-                height: 30,
-                child: RaisedButton(
-                  child: Text(
-                    "수정",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
+
+              ],
+            ),
+            SizedBox(height: 30,),
+
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 70,
+                  height: 30,
+                  child: RaisedButton(
+                    child: Text(
+                      "답변",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
                     ),
+                    color: Theme.of(context).buttonColor,
+                    onPressed: () {
+                      currentLesson.fetch(lesson);
+                      photosProvider.fetch(lesson.wr_id, lesson.wr_photos);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) =>LessonRegisterPage(tabIndex: 1,)));
+                    },
                   ),
-                  color: Theme.of(context).buttonColor,
-                  onPressed: () {
-                    currentLesson.fetch(lesson);
-                    photosProvider.fetch(lesson.wr_id, lesson.wr_photos);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) =>LessonRegisterPage()));
-                  },
                 ),
-              ),
+                SizedBox(width: 30,),
+
+                SizedBox(
+                  width: 70,
+                  height: 30,
+                  child: RaisedButton(
+                    child: Text(
+                      "점프",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                    color: Colors.blueGrey,
+                    onPressed: (){},
+                  ),
+                ),
+                SizedBox(width: 10,),
+
+                SizedBox(
+                  width: 70,
+                  height: 30,
+                  child: RaisedButton(
+                    child: Text(
+                      "내용",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                    color: Theme.of(context).buttonColor,
+                    onPressed: (){
+                      currentLesson.fetch(lesson);
+                      photosProvider.fetch(lesson.wr_id, lesson.wr_photos);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) =>LessonRegisterPage(tabIndex: 0,)));
+                    },
+                  ),
+                ),
+                SizedBox(width: 10,),
+
+                SizedBox(
+                  width: 70,
+                  height: 30,
+                  child: RaisedButton(
+                    child: Text(
+                      "사진",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                    color: Theme.of(context).buttonColor,
+                    onPressed: () {
+                      currentLesson.fetch(lesson);
+                      photosProvider.fetch(lesson.wr_id, lesson.wr_photos);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) =>LessonRegisterPage(tabIndex: 1,)));
+                    },
+                  ),
+                ),
 
 
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
 
