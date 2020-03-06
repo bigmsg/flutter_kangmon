@@ -19,10 +19,11 @@ import 'package:flutter_kangmon/data/transparent_image.dart';
 class ChatRoomPage extends StatefulWidget {
   String currentUserId;
   String otherUserId;
+  String chatRoomId;
 
   Lesson lesson;
 
-  ChatRoomPage({this.currentUserId, this.otherUserId, this.lesson});
+  ChatRoomPage({this.currentUserId, this.otherUserId,this.chatRoomId, this.lesson});
 
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
@@ -48,7 +49,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     print('-- initState ---');
     print('widget.otherUserId: ${widget.otherUserId}');
     if (widget.currentUserId != '' && widget.currentUserId != widget.otherUserId) {
-      chatMessagBloc.initialFetch(widget.currentUserId, widget.otherUserId);
+      if(widget.chatRoomId != null) {
+        chatMessagBloc.initialFetch(widget.currentUserId, roomId: widget.chatRoomId);
+      } else {
+        chatMessagBloc.initialFetch(widget.currentUserId, otherId: widget.otherUserId);
+      }
     }
     super.initState();
   }
@@ -150,6 +155,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     return Scaffold(
       appBar: AppBar(
         title: widget.lesson != null ? Text('레슨명: ${widget.lesson.wr_subject}') : Text('챗방'),
+        actions: <Widget>[
+      ],
 
       ),
       body: StreamBuilder(
@@ -226,7 +233,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   inputMaxLines: 5,
                   messageContainerPadding: EdgeInsets.only(left: 5.0, right: 5.0),
                   alwaysShowSend: true,
-                  inputTextStyle: TextStyle(fontSize: 16.0, color: inputTextColor),
+                  inputTextStyle: TextStyle(fontSize: 14.0, color: inputTextColor,),
                   inputContainerStyle: BoxDecoration(
                     border: Border.all(width: 0.0),
                     color: inputBoxColor,
@@ -264,7 +271,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     print("laoding...");
                   },
                   shouldShowLoadEarlier: false,
-                  showTraillingBeforeSend: true,
+                  showTraillingBeforeSend: false,
                   /*trailing: <Widget>[
                     IconButton(
                       color: Colors.green,

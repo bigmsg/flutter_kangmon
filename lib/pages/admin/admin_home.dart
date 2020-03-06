@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/data/data.dart';
 
 class AdminHome extends StatefulWidget {
   @override
@@ -46,7 +47,21 @@ class _AdminHomeState extends State<AdminHome> {
           body: TabBarView(
             //controller: ctr,
               children: <Widget> [
-                Center(child: Text('레슨심사')),
+                Center(
+                  child: Column(
+                    children: <Widget>[
+                      FlatButton(
+                        child: Text('로그인 체크'),
+                        onPressed: () async {
+                          var res = await request.get(chkAutologinUrl);
+                          print(res.content());
+                        },
+                      ),
+                    ],
+                  ),
+
+
+                ),
                 Center(child: Text('강사목록')),
                 Center(child: Text('통계보기')),
               ]

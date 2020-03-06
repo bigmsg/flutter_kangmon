@@ -44,5 +44,8 @@
     <key>NSPhotoLibraryUsageDescription</key>
     <string>${PRODUCT_NAME} PhotoLibrary Usage</string>
     
+	<key>UIStatusBarHidden</key>
+	<true/>
+
 </dict>
 </plist>

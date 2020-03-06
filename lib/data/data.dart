@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kangmon/chat/model/chat_message_bloc.dart';
 import 'package:flutter_kangmon/help/my_requests.dart';
 import 'package:flutter_kangmon/models/board_bloc.dart';
+import 'package:flutter_kangmon/models/chats_bloc.dart';
 import 'package:flutter_kangmon/models/comment_bloc.dart';
 import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:flutter_kangmon/models/lessons_bloc.dart';
@@ -37,6 +38,7 @@ final bbsCommentUpdateUrl = appUrl + '/${_bbsDir}/write_comment_update.php';
 final sendMessageUrl = appUrl + '/${_chatDir}/write.php';
 final chatFetchaAllUrl = appUrl + '/${_chatDir}/fetch_all.php';
 final chatFetchUrl = appUrl + '/${_chatDir}/fetch.php';
+final chatListUrl = appUrl + '/${_chatDir}/list.php';
 
 final photoRegisterUrl = appUrl + '/jquery-file-upload/gnuboard.php';
 final getPhotosUrl = appUrl + '/get_photos.php';
@@ -58,6 +60,7 @@ final boardBloc = BoardBloc();
 final lessonsBloc = LessonsBloc();
 final myLessonsBloc = MyLessonsBloc();
 final commentsBloc = CommentsBloc();
+final chatsBloc = ChatsBloc();
 
 
 final request = MyRequests();

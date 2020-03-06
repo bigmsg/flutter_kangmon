@@ -241,7 +241,8 @@ class _LoginPageState extends State<LoginPage> {
     pref.setString('userInfo', json.encode(userInfo));
     pref.setString('cookies', json.encode(cookies));
 
-    //myLessonsBloc.fetch();
+    lessonsBloc.fetch();
+    boardBloc.fetch('mico_qna');
     //myLessonsBloc.remove();
 
     await Provider.of<CurrentUser>(context, listen: false).fetch();

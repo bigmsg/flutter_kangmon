@@ -7,55 +7,6 @@ import 'package:flutter_kangmon/models/lesson.dart';
 import 'package:requests/requests.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
-//import 'package:intl/intl.dart';
-
-var chat5 = ChatMessage(
-  text: "안녕하세요? 질문있습니다.",
-  user: ChatUser(
-    name: "궁금",
-    uid: "1",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/1.jpg",
-  ),
-  createdAt: DateTime.now(),
-);
-
-var chat10 = ChatMessage(
-  text: "물어보세요.",
-  user: ChatUser(
-    name: "강사",
-    uid: "2",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/2.jpg",
-  ),
-);
-
-
-var chat15 = ChatMessage(
-  text: "레슨 비용이 얼마인가요?",
-  user: ChatUser(
-    name: "궁금",
-    uid: "1",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/1.jpg",
-  ),
-  video: 'https://www.kbschool.co.kr/222.mp4',
-);
-
-
-var chat20 = ChatMessage(
-  text: "한달레슨이면 20만원입니다. ",
-  user: ChatUser(
-    name: "강사",
-    uid: "2",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/2.jpg",
-  ),
-  //createdAt: DateTime.now(),
-  image: "https://www.massagemania.co.kr/data/file/gooin/thumb-237413926_Ww5JZan4_354e98583d0dab191fa0338c28d90df7faf0a9fd_350x150.jpg",
-
-);
-
-
-List<ChatMessage> dummyMessages = [
-  chat5, chat5, chat10, chat15, chat20
-];
 
 /*
   게시글 목록 가져오기
@@ -65,6 +16,7 @@ class ChatMessageBloc {
   final _boardSubject = BehaviorSubject<List<ChatMessage>>.seeded([]);
   Stream<List<ChatMessage>> get stream => _boardSubject.stream;
   List<ChatMessage> _chats = [];
+  String get roomId => chatRoomId;
 
   String chatRoomId;    // initialFetch() 이후에 설정됨
   String currentUserId;
@@ -75,6 +27,7 @@ class ChatMessageBloc {
     chatRoomId = roomId;
     //initialFetch();
   }
+
 
   sendMessage(ChatMessage message) async {
     // 서버업로드 이후
@@ -100,7 +53,7 @@ class ChatMessageBloc {
     //print(message.text);
 
     var res = await request.post(sendMessageUrl, body: {
-      'brightness': _brightness,
+      //'brightness': _brightness,
       'other_mb_id': otherUserId,
       'chat_room_id': chatRoomId,
       'chat_text': message.text,
@@ -108,11 +61,16 @@ class ChatMessageBloc {
       'chat_video': '',
     });
 
-    //print(res.content());
+    print(res.content());
 
 
     if(res.statusCode == 200) {
       var js = res.json();
+      if(chatRoomId == null) {
+        chatRoomId = js['chat_room_id'];
+      }
+      print('--------- send result -----------');
+      print(js['chat_room_id']);
       var msg = jsonToMessage(js);
       _chats.add(msg);
       _boardSubject.add(_chats);
@@ -128,15 +86,21 @@ class ChatMessageBloc {
   */
   Future<int> intervalFetch() async {
 
+    if (chatRoomId == null) {
+      return 0;
+    }
 
-
+    String lastDateString = '';
     var formatter  = DateFormat('yyyy-MM-dd H:m:s');
-    var lastDateString = formatter.format(_chats[_chats.length - 1].createdAt);
+    if(_chats.length == 0) {
+      lastDateString = '';
+    }
+    lastDateString = formatter.format(_chats[_chats.length - 1].createdAt);
     print('last datetime: ' + lastDateString);
 
     var res = await request.post(chatFetchUrl, body: {
       'chat_room_id': chatRoomId,
-      'brightness': _brightness,
+      //'brightness': _brightness,
       'last_datetime': lastDateString
     });
 
@@ -158,7 +122,7 @@ class ChatMessageBloc {
   /*
     초기 chatRoomId의 모든 메시지 불러오기(max: 100개 or 7일전까지)
    */
-  initialFetch(String currentId, String otherId) async {
+  initialFetch(String currentId, {String roomId, String otherId}) async {
     if(WidgetsBinding.instance.window.platformBrightness == Brightness.dark) {
       _brightness = 'dark';
     } else {
@@ -167,28 +131,35 @@ class ChatMessageBloc {
 
     print('--------- initialFetch() -----------');
     currentUserId = currentId;
+    chatRoomId = roomId;
     otherUserId = otherId;
-
+    print('chatRoomId: ${chatRoomId}');
     var res = await request.post(chatFetchaAllUrl, body: {
-      'brightness': _brightness,
+      //'brightness': _brightness,
+      'chat_room_id': chatRoomId,
       'other_mb_id': otherUserId,
     });
 
+    print('---------  result --------');
+    print(res.statusCode);
     print(res.content());
 
     var js = res.json();
     //print(js);
+    if (js['chat_room_id'] != null) {
+      chatRoomId = js['chat_room_id'];
 
-    chatRoomId = js['chat_room_id'];
-
-    for(var i =0; i<js['messages'].length; i++) {
-      print(js['messages'][i]['createdAt']);
-      var msg = jsonToMessage(js['messages'][i]);
-      _chats.add(msg);
+      for (var i = 0; i < js['messages'].length; i++) {
+        print(js['messages'][i]['createdAt']);
+        var msg = jsonToMessage(js['messages'][i]);
+        _chats.add(msg);
+      }
+      print(_chats[0].createdAt);
+      _boardSubject.add(_chats);
+      print('end initial fetch');
+    } else {
+      print('${otherUserId}와 채팅한 적이 없습니다. ');
     }
-    print(_chats[0].createdAt);
-    _boardSubject.add(_chats);
-    print('end initial fetch');
 
 
   }

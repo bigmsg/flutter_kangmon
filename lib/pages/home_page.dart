@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kangmon/chat/chat_list_page.dart';
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter_kangmon/data/data.dart';
 import 'package:flutter_kangmon/help/common.dart';
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
     //return LessonListPage();
     return DefaultTabController(
-        length: isAdmin ? 4: 3,
+        length: isAdmin ? 5: 4,
         //length: 4,
         child: Scaffold(
           bottomNavigationBar: Material(
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                     }
                   }*/
                 },
-                tabs: isAdmin ? _buildTabBar4(isSuper) : _buildTabBar3(currentUser),
+                tabs: isAdmin ? _buildTabBarAdmin(isSuper) : _buildTabBar(currentUser),
               ),
 
               decoration: BoxDecoration(
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
           ),
           body: TabBarView(
             //controller: ctr,
-            children: isAdmin ? _buildPage4(isSuper) : _buildPage3(currentUser),
+            children: isAdmin ? _buildPageAdmin(isSuper) : _buildPage(currentUser),
           ),
         ),
       );
@@ -130,14 +131,15 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  _buildTabBar4(bool isSuper) {
+  _buildTabBarAdmin(bool isSuper) {
 
     return <Widget>[
       Tab(child: Text('레슨', style: TextStyle(
         fontSize: 12
-        ),),
-      ),
-
+      ),),),
+      Tab(child: Text('채팅', style: TextStyle(
+          fontSize: 12
+      ),),),
       /*isSuper ? Tab(child: Text('영자방', style: TextStyle(
           fontSize: 12
       ),),)
@@ -179,9 +181,12 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  _buildTabBar3(CurrentUser user) {
+  _buildTabBar(CurrentUser user) {
     return <Widget>[
       Tab(child: Text('레슨', style: TextStyle(
+          fontSize: 12
+      ),),),
+      Tab(child: Text('채팅', style: TextStyle(
           fontSize: 12
       ),),),
       Tab(child: Text('Q&A', style: TextStyle(
@@ -197,9 +202,10 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  _buildPage4(bool isSuper) {
+  _buildPageAdmin(bool isSuper) {
     return <Widget>[
       LessonListPage(),
+      ChatListPage(),
       isSuper ? AdminHome() : MyLessonListPage(),
       BbsListPage(),
       MyPage(),
@@ -207,9 +213,10 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  _buildPage3(CurrentUser user) {
+  _buildPage(CurrentUser user) {
     return <Widget>[
       LessonListPage(),
+      ChatListPage(),
       BbsListPage(),
       user.data.mb_id == '' ? LoginPage(isPreviousTabView: true)
       : MyPage(),

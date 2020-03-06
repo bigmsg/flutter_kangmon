@@ -42,7 +42,7 @@ class _LessonListState extends State<LessonListPage> {
 
     var currentUser = Provider.of<CurrentUser>(context);
     //lessonsBloc.fetch('mico_lesson');
-    //lessonsBloc.fetch('mico_lesson');
+    lessonsBloc.fetch();
     //myLessonsBloc.fetch();
 
     // 화면전환시 새로운 데이터 갱신 필요
